@@ -18,11 +18,11 @@
 				    } else {
 				       $('header').removeClass('fixed');
 				    }
-
-				    if ($(window).scrollTop() > ($("#about").offset().top - $("#about").height())) {
+				    console.log($(window).scrollTop(), $("#about").offset().top, $("#tutorials").offset().top);
+				    if ($(window).scrollTop() > ($("#about").offset().top - $("#about h2").height())) {
 				    	$("header .nav a:not(.about).active").removeClass("active");
 				    	$("header .nav .about").addClass("active");
-				    } else if ($(window).scrollTop() > ($("#tutorials").offset().top - $("#tutorials").height())) {
+				    } else if ($(window).scrollTop() > ($("#tutorials").offset().top - $("#tutorials h2").height())) {
 				    	$("header .nav a:not(.tuts).active").removeClass("active");
 				    	$("header .nav .tuts").addClass("active");
 				    } else {
@@ -57,8 +57,10 @@
 		<header id="editor_jump">
 			<div class="container">
 				<h1>Editing</h1>
-				<input type="file" name="file_upload" id="file_upload" class="hidden" />
-				<div class="upload_text">upload file to edit</div>
+				<div class="upload_text">
+					<input type="file" name="file_upload" id="file_upload" />
+					upload file to edit
+				</div>
 				<div class="nav">
 					<a href="#editor_jump" class="edit active">Edit</a><a href="#tutorials_jump" class="tuts">Tutorials</a><a href="#about_jump" class="about">About</a>
 				</div>
@@ -89,7 +91,7 @@
 					<h3>2. Trim</h3>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas blandit velit eget placerat faucibus. Maecenas a mollis ipsum. Nam non nulla sit amet orci pellentesque aliquam bibendum luctus est. Curabitur vestibulum viverra nisl, non ultricies diam euismod quis. Morbi eget interdum nibh. Donec non ultricies sapien, at cursus sem. Vivamus placerat condimentum tortor, in scelerisque turpis lobortis sed. Ut lacinia, magna vel tristique feugiat, eros est sollicitudin purus, in gravida neque leo ut magna. Nulla facilisis tempor bibendum. Proin mi erat, suscipit eu turpis in, tristique venenatis lacus. Phasellus sit amet odio tincidunt, vestibulum libero ut, sollicitudin eros.</p>
 					<div class="clear"></div>
-					
+
 					<img src="img/holding.png">
 					<h3>2. Smooth Transition</h3>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas blandit velit eget placerat faucibus. Maecenas a mollis ipsum. Nam non nulla sit amet orci pellentesque aliquam bibendum luctus est. Curabitur vestibulum viverra nisl, non ultricies diam euismod quis. Morbi eget interdum nibh. Donec non ultricies sapien, at cursus sem. Vivamus placerat condimentum tortor, in scelerisque turpis lobortis sed. Ut lacinia, magna vel tristique feugiat, eros est sollicitudin purus, in gravida neque leo ut magna. Nulla facilisis tempor bibendum. Proin mi erat, suscipit eu turpis in, tristique venenatis lacus. Phasellus sit amet odio tincidunt, vestibulum libero ut, sollicitudin eros.</p>

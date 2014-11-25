@@ -45,6 +45,8 @@ header .upload_text {
 	border-bottom: 2px solid #4dbce9;
 	font-size: 50px;
 	padding-bottom: 5px;
+	position: relative;
+	overflow: hidden;
 }
 
 header .upload_text:after {
@@ -66,9 +68,17 @@ header .upload_text:after {
 	box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 3px 0px;
 }
 
-header input {
+header #file_upload {
 	color: #4dbce9;
-	font-size: 50px;
+	font-size: 200px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	opacity: 0;
+	-ms-filter: 'alpha(opactiy=0)';
+	margin: 0;
+	z-index: 1000;
+	cursor: pointer;
 }
 
 header h1 {
@@ -252,7 +262,7 @@ footer h3 {
 
 footer h4 {
 	color: #26ade4;
-	margin-bottom: 5px; 
+	margin-bottom: 5px;
 }
 
 footer .nav, footer .contact {
