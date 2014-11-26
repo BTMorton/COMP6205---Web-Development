@@ -7,7 +7,6 @@ body {
 	font-weight: 300;
 	width: 100%;
 	margin: auto;
-	padding-bottom: 20px;
 }
 
 h1,h2,h3,h4,h5 {
@@ -182,8 +181,13 @@ header.fixed {
 	display: inline-block;
 }
 
-#editor #peaks_container .zoom-container {
+#editor #peaks_container .zoom-container, #editor #peaks_container .overview-container {
 	/*display: none;*/
+	width: 350px;
+	display: inline-block;
+}
+#editor #peaks_container .zoom-container {
+	margin-right: 35px;
 }
 
 #editor .control {

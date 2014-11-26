@@ -13,30 +13,34 @@
 		<script src="bower_components/requirejs/require.js"></script>
 		<script type="text/javascript">
 			var peaks_inst;
+
+			function loadPeaks() {
+		    	requirejs.config({
+				  paths: {
+				    peaks: 'bower_components/peaks.js/src/main',
+				    EventEmitter: 'bower_components/eventemitter2/lib/eventemitter2',
+				    Kinetic: 'bower_components/kineticjs/kinetic',
+				    'waveform-data': 'bower_components/waveform-data/dist/waveform-data.min'
+				  }
+				});
+
+				// requires it
+				require(['peaks'], function (Peaks) {
+				  peaks_inst = Peaks.init({
+				    container: document.querySelector('#peaks_container'),
+				    mediaElement: document.querySelector('#peaks_player'),
+				    height: 200,
+				    zoomLevels: [512, 1024, 2048, 4096],
+				    keyboard: true
+				  });
+
+				  peaks_inst.on('segments.ready', function(){
+				    // do something when segments are ready to be displayed
+				  });
+				});
+			}
+
 			$(function() {
-				setTimeout(function() {
-			    	requirejs.config({
-					  paths: {
-					    peaks: 'bower_components/peaks.js/src/main',
-					    EventEmitter: 'bower_components/eventemitter2/lib/eventemitter2',
-					    Kinetic: 'bower_components/kineticjs/kinetic',
-					    'waveform-data': 'bower_components/waveform-data/dist/waveform-data.min'
-					  }
-					});
-
-					// requires it
-					require(['peaks'], function (Peaks) {
-					  peaks_inst = Peaks.init({
-					    container: document.querySelector('#peaks_container'),
-					    mediaElement: document.querySelector('#peaks_player'),
-					    height: 100
-					  });
-
-					  peaks_inst.on('segments.ready', function(){
-					    // do something when segments are ready to be displayed
-					  });
-					});
-			    }, 500);
 				$(window).scroll(function() {
 				    if ($(window).scrollTop() >= 165) {
 				       $('header').addClass('fixed');
@@ -57,13 +61,12 @@
 				});
 
 			    $('#file_upload').fileupload({
-			        url: './',
+			        url: './upload.php',
 			        dataType: 'json',
 			        done: function (e, data) {
-			            $.each(data.result.files, function (index, file) {
-			            	console.log(file.name);
-			                //$('<p/>').text(file.name).appendTo('#files');
-			            });
+			        	$("#peaks_player source").attr("src", data.result.file_name);
+			        	$("#peaks_player")[0].load();
+			        	loadPeaks();
 			        },
 			        progressall: function (e, data) {
 			            var progress = parseInt(data.loaded / data.total * 100, 10);
@@ -71,7 +74,7 @@
 			                'width',
 			                progress + '%'
 			            );*/
-			    	console.log("Progress: "+progress);
+			    		console.log("Progress: "+progress);
 			        }
 			    }).prop('disabled', !$.support.fileInput)
 			        .parent().addClass($.support.fileInput ? undefined : 'disabled');
