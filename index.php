@@ -2,28 +2,41 @@
 	<head>
 		<title>Ben Morton (bm12g10) and Simon Bidwell (sab3g11) Web Development Coursework</title>
 		<link rel="stylesheet" href="css/reset.min.css" />
-		<link rel="stylesheet" href="css/jquery-ui.css" />
 		<link rel="stylesheet" href="css/muli.css" type="text/css" />
-		<link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+		<link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css" />
 		<link rel="stylesheet" href="css/jquery.fileupload.css">
 		<link rel="stylesheet" href="css/style.css" />
-		<script src="js/jquery.min.js"></script>
-		<script src="js/jquery-ui.min.js"></script>
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
 		<script src="js/jquery.fileupload.js"></script>
-		<!-- <script src="js/peaks.min.js"></script>
-		 --><script type="text/javascript">
+		<script src="bower_components/requirejs/require.js"></script>
+		<script type="text/javascript">
+			var peaks_inst;
 			$(function() {
-				// setTimeout(function() {
-			 //    	var peak_inst = peaks.init({
-			 //    		container: $("#peaks_container")[0],
-			 //    		mediaElement: $("#peaks_player")[0],
-			 //    		overviewWaveformColor: '#d1e751',
-			 //    		// keyboard: true,
-			 //    		height: 100
-			 //    	});
+				setTimeout(function() {
+			    	requirejs.config({
+					  paths: {
+					    peaks: 'bower_components/peaks.js/src/main',
+					    EventEmitter: 'bower_components/eventemitter2/lib/eventemitter2',
+					    Kinetic: 'bower_components/kineticjs/kinetic',
+					    'waveform-data': 'bower_components/waveform-data/dist/waveform-data.min'
+					  }
+					});
 
-			 //    	peak_inst.on("segments.ready", function() {});
-			 //    }, 500);
+					// requires it
+					require(['peaks'], function (Peaks) {
+					  peaks_inst = Peaks.init({
+					    container: document.querySelector('#peaks_container'),
+					    mediaElement: document.querySelector('#peaks_player'),
+					    height: 100
+					  });
+
+					  peaks_inst.on('segments.ready', function(){
+					    // do something when segments are ready to be displayed
+					  });
+					});
+			    }, 500);
 				$(window).scroll(function() {
 				    if ($(window).scrollTop() >= 165) {
 				       $('header').addClass('fixed');
@@ -92,7 +105,7 @@
 				<div id="play_button"></div>
 				<div id="peaks_container"></div>
 				<audio id="peaks_player">
-					<source src="008361.mp3" type="audio/mp3" />
+					<source src="007384.mp3" type="audio/mp3" />
 				</audio>
 				<div class="controls">
 					<div class="control" id="trim"><h3>Trim</h3>Select an area of the audio to cut</div>

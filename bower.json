@@ -1,0 +1,32 @@
+{
+  "name": "bm12g10/sab3g10 COMP6205 Editor",
+  "version": "0.1",
+  "homepage": "https://github.com/SimonBidwell/COMP6205---Web-Development",
+  "description": "Web-based audio editor created for COMP6205 coursework by Ben Morton and Simon Bidwell",
+  "main": "index.php",
+  "keywords": [
+    "web",
+    "audio",
+    "javascript",
+    "peaks"
+  ],
+  "authors": [
+    "Ben Morton",
+    "Simon Bidwell"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "~4.2.0",
+    "jquery-ui": "~1.11.2",
+    "jquery": "~2.1.1",
+    "peaks.js": "~0.4.3"
+  }
+}
