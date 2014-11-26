@@ -10,15 +10,27 @@
 		<script src="js/jquery.min.js"></script>
 		<script src="js/jquery-ui.min.js"></script>
 		<script src="js/jquery.fileupload.js"></script>
-		<script type="text/javascript">
+		<!-- <script src="js/peaks.min.js"></script>
+		 --><script type="text/javascript">
 			$(function() {
+				// setTimeout(function() {
+			 //    	var peak_inst = peaks.init({
+			 //    		container: $("#peaks_container")[0],
+			 //    		mediaElement: $("#peaks_player")[0],
+			 //    		overviewWaveformColor: '#d1e751',
+			 //    		// keyboard: true,
+			 //    		height: 100
+			 //    	});
+
+			 //    	peak_inst.on("segments.ready", function() {});
+			 //    }, 500);
 				$(window).scroll(function() {
 				    if ($(window).scrollTop() >= 165) {
 				       $('header').addClass('fixed');
 				    } else {
 				       $('header').removeClass('fixed');
 				    }
-				    console.log($(window).scrollTop(), $("#about").offset().top, $("#tutorials").offset().top);
+
 				    if ($(window).scrollTop() > ($("#about").offset().top - $("#about h2").height())) {
 				    	$("header .nav a:not(.about).active").removeClass("active");
 				    	$("header .nav .about").addClass("active");
@@ -50,7 +62,16 @@
 			        }
 			    }).prop('disabled', !$.support.fileInput)
 			        .parent().addClass($.support.fileInput ? undefined : 'disabled');
-			})
+			    $("#play_button").click(function() {
+			    	if ($(this).hasClass("pause")) {
+			    		$(this).removeClass("pause");
+			    		$("#peaks_player")[0].pause();
+			    	} else {
+			    		$(this).addClass("pause");
+			    		$("#peaks_player")[0].play();
+			    	}
+			    })
+			});
 		</script>
 	</head>
 	<body>
@@ -68,6 +89,11 @@
 		</header>
 		<div id="wrapper">
 			<div id="editor" class="container">
+				<div id="play_button"></div>
+				<div id="peaks_container"></div>
+				<audio id="peaks_player">
+					<source src="008361.mp3" type="audio/mp3" />
+				</audio>
 				<div class="controls">
 					<div class="control" id="trim"><h3>Trim</h3>Select an area of the audio to cut</div>
 					<div class="control" id="fade_in"><h3>Fade In</h3>Select an area of the audio to fade in</div>

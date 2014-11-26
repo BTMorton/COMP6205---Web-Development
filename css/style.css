@@ -146,6 +146,46 @@ header.fixed {
 	padding: 5px;
 }
 
+#editor #play_button {
+	display: inline-block;
+	width: 100px;
+	height: 200px;
+	vertical-align: top;
+	margin-right: 50px;
+}
+
+#editor #play_button:before {
+	content: '\f04b';
+	font-family: "FontAwesome";
+	color: #d1e751;
+	background-color: #fff;
+	border: 3px solid #d1e751;
+	border-radius: 50px;
+	width: 100px;
+	height: 100px;
+	display: inline-block;
+	font-size: 50px;
+	padding: 23px;
+	text-align: right;
+	box-sizing: border-box;
+	margin: 50px 0;
+	cursor: pointer;
+}
+
+#editor #play_button.pause:before {
+	content: '\f04c';
+	text-align: center;
+}
+
+#editor #peaks_container {
+	width: 869px;
+	display: inline-block;
+}
+
+#editor #peaks_container .zoom-container {
+	/*display: none;*/
+}
+
 #editor .control {
 	background-color: #cef1ff;
 	display: inline-block;
