@@ -31,10 +31,13 @@
 				    mediaElement: document.querySelector('#peaks_player'),
 				    height: 200,
 				    zoomLevels: [512, 1024, 2048, 4096],
-				    keyboard: true
+				    keyboard: true,
+				    overviewWaveformColor: "#d1e751"
 				  });
 
 				  peaks_inst.on('segments.ready', function(){
+				  	$("#progress").addClass("hidden");
+				  	$("#peaks_container").removeAttr("style");
 				    // do something when segments are ready to be displayed
 				  });
 				});
@@ -64,16 +67,30 @@
 			        url: './upload.php',
 			        dataType: 'json',
 			        done: function (e, data) {
-			        	$("#peaks_player source").attr("src", data.result.file_name);
-			        	$("#peaks_player")[0].load();
-			        	loadPeaks();
+			        	console.log(data.result);
+			        	if (data.result.file_name != "" && data.result.file_name != undefined) {
+			        		$("#peaks_container").removeClass("hidden").css("height", '0').css('opacity', '0');
+			        		$("#progress").text("Uploaded. Generating waveform...");;
+				        	$("#peaks_player source").attr("src", data.result.file_name);
+				        	$("#peaks_player")[0].load();
+				        	loadPeaks();
+				        } else {
+				        	$("#progress").addClass("error").text("Error: "+data.result.error)
+				        }
 			        },
 			        progressall: function (e, data) {
 			            var progress = parseInt(data.loaded / data.total * 100, 10);
-			            /*$('#progress .progress-bar').css(
-			                'width',
-			                progress + '%'
-			            );*/
+			            var box = $("#progress");
+
+			            if (box.hasClass("hidden")) {
+			            	$("#placeholder").addClass("hidden");
+			            	box.removeClass("hidden");
+			            } else if (box.hasClass("error")) {
+			            	box.removeClass("error");
+			            }
+
+			            box.text("Progress: " + progress + "%");
+			            $("#progress:before").width(progress+"%");
 			    		console.log("Progress: "+progress);
 			        }
 			    }).prop('disabled', !$.support.fileInput)
@@ -106,7 +123,11 @@
 		<div id="wrapper">
 			<div id="editor" class="container">
 				<div id="play_button"></div>
-				<div id="peaks_container"></div>
+				<div id="placeholder">
+					Use the uploader above to upload your file and begin editing!
+				</div>
+				<div id="progress" class="hidden"></div>
+				<div id="peaks_container" class="hidden"></div>
 				<audio id="peaks_player">
 					<source src="007384.mp3" type="audio/mp3" />
 				</audio>

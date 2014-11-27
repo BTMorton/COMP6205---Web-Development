@@ -176,18 +176,60 @@ header.fixed {
 	text-align: center;
 }
 
-#editor #peaks_container {
+#editor #peaks_container, #editor #progress, #editor #placeholder {
 	width: 869px;
 	display: inline-block;
 }
 
-#editor #peaks_container .zoom-container, #editor #peaks_container .overview-container {
-	/*display: none;*/
-	width: 350px;
-	display: inline-block;
+#editor #placeholder, #editor #progress {
+	height: 160px;
+	box-sizing: border-box;
+	padding: 20px;
+	margin: 20px 0;
+	background-color: #4dbce9;
+	border: 4px solid #147ea9;
+	color: #147ea9;
+	font-size: 50px;
+	border-radius: 20px;
 }
+
+#editor #progress {
+	background-color: #DDE7A2;
+	border-color: #C5E700;
+	color: #C5E700;
+	position: relative;
+	padding: 50px 20px;
+}
+
+#editor #progress.error {
+	background-color: red;
+	border-color: darkred;
+	color: darkred;
+	padding: 20px;
+}
+
+#editor #progress:not(.error):before {
+	position: absolute;
+	background-color: #d1e751;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	height: 160px;
+	width: 0%;
+}
+
+#editor #peaks_container .overview-container, #editor #peaks_container .zoom-container {
+	/*display: none;*/
+	width: 869px;
+	display: inline-block;
+	overflow: hidden;
+}
+
 #editor #peaks_container .zoom-container {
-	margin-right: 35px;
+	display: inline-block;
+	margin-right: 9px;
+	opacity: 0;
+	height: 0;
 }
 
 #editor .control {
