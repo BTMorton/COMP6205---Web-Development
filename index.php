@@ -13,36 +13,36 @@
 		<script src="bower_components/requirejs/require.js"></script>
 		<script type="text/javascript">
 			var peaks_inst;
-
+			
 			function loadPeaks() {
 				requirejs.config({
-				  paths: {
-					peaks: 'bower_components/peaks.js/src/main',
-					EventEmitter: 'bower_components/eventemitter2/lib/eventemitter2',
-					Kinetic: 'bower_components/kineticjs/kinetic',
-					'waveform-data': 'bower_components/waveform-data/dist/waveform-data.min'
-				  }
+					paths: {
+						peaks: 'bower_components/peaks.js/src/main',
+						EventEmitter: 'bower_components/eventemitter2/lib/eventemitter2',
+						Kinetic: 'bower_components/kineticjs/kinetic',
+						'waveform-data': 'bower_components/waveform-data/dist/waveform-data.min'
+					}
 				});
-
+				
 				// requires it
 				require(['peaks'], function (Peaks) {
-				  peaks_inst = Peaks.init({
-					container: document.querySelector('#peaks_container'),
-					mediaElement: document.querySelector('#peaks_player'),
-					height: 200,
-					zoomLevels: [512, 1024, 2048, 4096],
-					keyboard: true,
-					overviewWaveformColor: "#d1e751"
-				  });
-
-				  peaks_inst.on('segments.ready', function(){
-					$("#progress").addClass("hidden");
-					$("#peaks_container").removeAttr("style");
-					// do something when segments are ready to be displayed
-				  });
+					peaks_inst = Peaks.init({
+						container: document.querySelector('#peaks_container'),
+						mediaElement: document.querySelector('#peaks_player'),
+						height: 200,
+						zoomLevels: [512, 1024, 2048, 4096],
+						keyboard: true,
+						overviewWaveformColor: "#d1e751"
+					});
+				
+					peaks_inst.on('segments.ready', function(){
+						$("#progress").addClass("hidden");
+						$("#peaks_container").removeAttr("style");
+						// do something when segments are ready to be displayed
+					});
 				});
 			}
-
+			
 			$(function() {
 				$(window).scroll(function() {
 					if ($(window).scrollTop() >= 165) {
@@ -50,7 +50,7 @@
 					} else {
 					   $('header').removeClass('fixed');
 					}
-
+					
 					if ($(window).scrollTop() > ($("#about").offset().top - $("#about h2").height())) {
 						$("header .nav a:not(.about).active").removeClass("active");
 						$("header .nav .about").addClass("active");
@@ -62,7 +62,7 @@
 						$("header .nav .edit").addClass("active");
 					}
 				});
-
+				
 				$('#file_upload').fileupload({
 					url: './upload.php',
 					dataType: 'json',
@@ -76,7 +76,7 @@
 						if (data.result.file_name != "" && data.result.file_name != undefined) {
 							$("#peaks_container").removeClass("hidden").css("height", '0').css('opacity', '0');
 							$("#progress_text").text("Uploaded. Generating waveform...");;
-							$("#peaks_player source").attr("src", data.result.file_name);
+							$("#peaks_player")[0].src = data.result.file_name;
 							$("#peaks_player")[0].load();
 							loadPeaks();
 						} else {
@@ -92,6 +92,7 @@
 					}
 				}).prop('disabled', !$.support.fileInput)
 					.parent().addClass($.support.fileInput ? undefined : 'disabled');
+				
 				$("#play_button").click(function() {
 					if ($(this).hasClass("pause")) {
 						$(this).removeClass("pause");
@@ -100,7 +101,15 @@
 						$(this).addClass("pause");
 						$("#peaks_player")[0].play();
 					}
-				})
+				});
+				
+				$("#peaks_player").on("play", function() { 
+					$("#play_button").addClass("pause");
+				}).on("pause", function() {
+					$("#play_button").removeClass("pause");
+				}).on("ended", function() {
+					$("#play_button").removeClass("pause");
+				});
 			});
 		</script>
 	</head>
@@ -128,9 +137,7 @@
 					<div id="progress_text"></div>
 				</div>
 				<div id="peaks_container" class="hidden"></div>
-				<audio id="peaks_player">
-					<source src="007384.mp3" type="audio/mp3" />
-				</audio>
+				<audio id="peaks_player"></audio>
 				<div class="controls">
 					<div class="control" id="trim"><h3>Trim</h3>Select an area of the audio to cut</div>
 					<div class="control" id="fade_in"><h3>Fade In</h3>Select an area of the audio to fade in</div>
