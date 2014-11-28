@@ -203,9 +203,9 @@ header.fixed {
 }
 
 #editor #progress.error {
-	background-color: red;
-	border-color: darkred;
-	color: darkred;
+	background-color: #D94545;
+	border-color: #8B0000;
+	color: #8B0000;
 	padding: 20px;
 }
 
