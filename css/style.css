@@ -194,9 +194,9 @@ header.fixed {
 }
 
 #editor #progress {
-	background-color: #DDE7A2;
-	border-color: #C5E700;
-	color: #C5E700;
+	background-color: #F4FFB3;
+	border-color: #A4BF00;
+	color: #A4BF00;
 	position: relative;
 	padding: 50px 20px;
 }
@@ -208,15 +208,23 @@ header.fixed {
 	padding: 20px;
 }
 
-#editor #progress:not(.error):before {
+#editor #progress_bar {
 	position: absolute;
-	background-color: #d1e751;
+	background-color: #E7FF59;
 	left: 0;
 	top: 0;
 	bottom: 0;
-	height: 160px;
+	height: 152px;
 	width: 0%;
+	border-radius: 16px;
 }
+
+#editor #progress_text {
+	z-index: 100;
+	position: relative;
+}
+
+#editor .error #progress_bar { display: none; }
 
 #editor #peaks_container .overview-container, #editor #peaks_container .zoom-container {
 	/*display: none;*/
@@ -227,9 +235,9 @@ header.fixed {
 
 #editor #peaks_container .zoom-container {
 	display: inline-block;
-	margin-right: 9px;
 	opacity: 0;
 	height: 0;
+	width: 1px;
 }
 
 #editor .control {
