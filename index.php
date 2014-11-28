@@ -95,6 +95,7 @@
 			        }
 			    }).prop('disabled', !$.support.fileInput)
 			        .parent().addClass($.support.fileInput ? undefined : 'disabled');
+
 			    $("#play_button").click(function() {
 			    	if ($(this).hasClass("pause")) {
 			    		$(this).removeClass("pause");
@@ -103,7 +104,47 @@
 			    		$(this).addClass("pause");
 			    		$("#peaks_player")[0].play();
 			    	}
-			    })
+			    });
+
+			    $("#trim").click(function() {
+			    	peaks_inst.segments.add([{
+			    		startTime: peaks_inst.time.getCurrentTime(),
+			    		endTime: peaks_inst.time.getCurrentTime() + 10,
+			    		editable: true,
+			    		color: '#000000',
+			    		labelText: 'Trim'
+			    	}]);
+			    });
+
+			    $("#fade_in").click(function() {
+			    	peaks_inst.segments.add([{
+			    		startTime: 0.1,
+			    		endTime: 10,
+			    		editable: [false, true],
+			    		color: '#26ade4',
+			    		labelText: 'Fade In'
+			    	}]);
+			    });
+
+			    $("#fade_out").click(function() {
+			    	peaks_inst.segments.add([{
+			    		startTime: peaks_inst.player.duration - 10,
+			    		endTime: peaks_inst.player.duration,
+			    		editable: [true, false],
+			    		color: '#26ade4',
+			    		labelText: 'Fade In'
+			    	}]);
+			    });
+
+			    $("#stretch").click(function() {
+			    	peaks_inst.segments.add([{
+			    		startTime: peaks_inst.time.getCurrentTime(),
+			    		endTime: peaks_inst.time.getCurrentTime() + 10,
+			    		editable: true,
+			    		color: 'red',
+			    		labelText: 'Stretch'
+			    	}]);
+			    });
 			});
 		</script>
 	</head>
