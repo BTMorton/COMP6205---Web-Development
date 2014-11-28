@@ -13,6 +13,7 @@
 		<script src="bower_components/requirejs/require.js"></script>
 		<script type="text/javascript">
 			var peaks_inst;
+			var playReady = false;
 			
 			function loadPeaks() {
 				requirejs.config({
@@ -32,12 +33,14 @@
 						height: 200,
 						zoomLevels: [512, 1024, 2048, 4096],
 						keyboard: true,
-						overviewWaveformColor: "#d1e751"
+						overviewWaveformColor: "#d1e751",
+						zoomWaveformColor: "rgba(0, 0, 0, 0)"
 					});
 				
 					peaks_inst.on('segments.ready', function(){
 						$("#progress").addClass("hidden");
 						$("#peaks_container").removeAttr("style");
+						playReady = true;
 						// do something when segments are ready to be displayed
 					});
 				});
@@ -70,6 +73,8 @@
 						$("#peaks_container").addClass("hidden");
 						$("#placeholder").addClass("hidden");
 						$("#progress").removeClass("hidden").removeClass("error");
+						$("#peaks_player")[0].pause();
+						playReady = false;
 					},
 					done: function (e, data) {
 						console.log(data.result);
@@ -94,12 +99,12 @@
 					.parent().addClass($.support.fileInput ? undefined : 'disabled');
 				
 				$("#play_button").click(function() {
-					if ($(this).hasClass("pause")) {
-						$(this).removeClass("pause");
-						$("#peaks_player")[0].pause();
-					} else {
-						$(this).addClass("pause");
-						$("#peaks_player")[0].play();
+					if (playReady) {
+						if ($("#peaks_player")[0].paused) {
+							$("#peaks_player")[0].play();
+						} else {
+							$("#peaks_player")[0].pause();
+						}
 					}
 				});
 				
