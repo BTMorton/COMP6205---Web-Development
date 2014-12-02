@@ -27,6 +27,10 @@ h1,h2,h3,h4,h5 {
 	display: none !important;
 }
 
+#header_wrap {
+	height: 200px;
+}
+
 header {
 	background-color: #26ade4;
 	width: 100%;
