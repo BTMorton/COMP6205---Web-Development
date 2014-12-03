@@ -88,9 +88,9 @@
 				<h3>COMP6205 - Web Development</h3>
 				<div class="nav">
 					<h4>Navigation</h4>
-					<a href="#editor">Edit</a><br />
-					<a href="#tutorials">Tutorials</a><br />
-					<a href="#about">About</a><br />
+					<a href="#header_wrap">Edit</a><br />
+					<a href="#tutorials_jump">Tutorials</a><br />
+					<a href="#about_jump">About</a><br />
 				</div>
 				<div class="contact">
 					<h4>Contact</h4>
