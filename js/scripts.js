@@ -124,8 +124,8 @@ $(function() {
 
     $("#fade_out").click(function() {
     	peaks_inst.segments.add([{
-    		startTime: peaks_inst.player.duration - 10,
-    		endTime: peaks_inst.player.duration,
+    		startTime: $("#peaks_player")[0].duration - 10,
+    		endTime: $("#peaks_player")[0].duration,
     		editable: [true, false],
     		color: '#26ade4',
     		labelText: 'Fade In'
