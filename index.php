@@ -42,9 +42,11 @@
 				<audio id="peaks_player"></audio>
 				<div class="controls">
 					<div class="control" id="trim"><h3>Trim</h3>Select an area of the audio to cut</div>
+					<div class="control" id="silence"><h3>Silence</h3>Select an area of the audio to silence</div>
 					<div class="control" id="fade_in"><h3>Fade In</h3>Select an area of the audio to fade in</div>
 					<div class="control" id="fade_out"><h3>Fade Out</h3>Select an area of the audio to fade out</div>
-					<div class="control" id="stretch"><h3>Stretch</h3>Select an area of the audio to stretch</div>
+					<div class="control" id="slow"><h3>Slow Down</h3>Select an area of the audio to slow down</div>
+					<div class="control" id="fast"><h3>Speed Up</h3>Select an area of the audio to speed up</div>
 					<div class="control" id="share"><h3>Share</h3>Generate a link to share your audio file</div>
 					<div class="control" id="save"><h3>Save</h3>Download your edited audio file</div>
 				</div>

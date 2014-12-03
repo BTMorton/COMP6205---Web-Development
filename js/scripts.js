@@ -48,14 +48,22 @@ function loadPeaks() {
 	    			case "Trim":
 	    				this.player.seekBySeconds(segment.endTime);
 	    				break;
+	    			case "Silence":
+	    				$("#peaks_player")[0].volume = 0;
+	    				fading = true;
+	    				break;
     				case "Fade Out":
 	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
 	    				var volume = (duration - ((ftime * ftime) / duration)) / duration;
 	    				$("#peaks_player")[0].volume = volume;
 	    				fading = true;
     					break;
-    				case "Stretch":
+    				case "Slow Down":
     					$("#peaks_player")[0].playbackRate = 0.5;
+    					stretch = true;
+    					break;
+    				case "Speed Up":
+    					$("#peaks_player")[0].playbackRate = 2;
     					stretch = true;
     					break;
 	    		}
@@ -147,6 +155,16 @@ $(function() {
     	}]);
     });
 
+    $("#silence").click(function() {
+    	peaks_inst.segments.add([{
+    		startTime: peaks_inst.time.getCurrentTime(),
+    		endTime: peaks_inst.time.getCurrentTime() + 10,
+    		editable: true,
+    		color: '#999999',
+    		labelText: 'Silence'
+    	}]);
+    });
+
     $("#fade_in").click(function() {
     	peaks_inst.segments.add([{
     		startTime: 0,
@@ -167,13 +185,23 @@ $(function() {
     	}]);
     });
 
-    $("#stretch").click(function() {
+    $("#slow").click(function() {
     	peaks_inst.segments.add([{
     		startTime: peaks_inst.time.getCurrentTime(),
     		endTime: peaks_inst.time.getCurrentTime() + 10,
     		editable: true,
     		color: 'red',
-    		labelText: 'Stretch'
+    		labelText: 'Slow Down'
+    	}]);
+    });
+
+    $("#fast").click(function() {
+    	peaks_inst.segments.add([{
+    		startTime: peaks_inst.time.getCurrentTime(),
+    		endTime: peaks_inst.time.getCurrentTime() + 10,
+    		editable: true,
+    		color: 'orange',
+    		labelText: 'Speed Up'
     	}]);
     });
 });
