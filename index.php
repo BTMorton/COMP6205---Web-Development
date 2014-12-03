@@ -94,8 +94,7 @@
 			<div id="about" class="container">
 				<h2>About</h2>
 				<p>Editing is a HTML5 web application created by <a href="mailto:bm12g10@soton.ac.uk">Ben Morton</a> and <a href="mailto:sab3g11@soton.ac.uk">Simon Bidwell</a> for COMP6205: Web Development. The tool makes use of javascript, php and HTML5 Audio to create an audio editing application with sharing, saving and live playback.</p> 
-
-<p>Due to its responsive design that adapts to the users viewpoint and intuitive user interface, Editing can be used on a wide variety of devices. After uploading an audio file, users can trim, fade in, fade out, stretch, share and export their file, regardless of their access device, allowing for quick and easy audio editing in an easily accessible, web application. </p>
+				<p>Due to its responsive design that adapts to the users viewpoint and intuitive user interface, Editing can be used on a wide variety of devices. After uploading an audio file, users can trim, fade in, fade out, stretch, share and export their file, regardless of their access device, allowing for quick and easy audio editing in an easily accessible, web application. </p>
 				<div class="name">
 					<div class="photo ben"></div>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas blandit velit eget placerat faucibus. Maecenas a mollis ipsum. Nam non nulla sit amet orci pellentesque aliquam bibendum luctus est. Curabitur vestibulum viverra nisl, non ultricies diam euismod quis. Morbi eget interdum nibh. Donec non ultricies sapien, at cursus sem. Vivamus placerat condimentum tortor, in scelerisque turpis lobortis sed. Ut lacinia, magna vel tristique feugiat, eros est sollicitudin purus, in gravida neque leo ut magna. Nulla facilisis tempor bibendum. Proin mi erat, suscipit eu turpis in, tristique venenatis lacus. Phasellus sit amet odio tincidunt, vestibulum libero ut, sollicitudin eros.</p>
