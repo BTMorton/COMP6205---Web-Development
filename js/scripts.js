@@ -29,6 +29,41 @@ function loadPeaks() {
 			playReady = true;
 			// do something when segments are ready to be displayed
 		});
+
+	    peaks_inst.on('player_time_update', function() {
+	    	curSegments = this.segments.getCurrentSegment();
+	    	time = this.time.getCurrentTime();
+	    	var stretch = false, trimmed = false, fading = false;
+
+	    	for (var x in curSegments) {
+	    		segment = curSegments[x];
+
+	    		switch (segment.labelText) {
+	    			case "Fade In":
+	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
+	    				var volume = ((ftime * ftime) / duration) / duration;
+	    				$("#peaks_player")[0].volume = volume;
+	    				fading = true;
+	    				break;
+	    			case "Trim":
+	    				this.player.seekBySeconds(segment.endTime);
+	    				break;
+    				case "Fade Out":
+	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
+	    				var volume = (duration - ((ftime * ftime) / duration)) / duration;
+	    				$("#peaks_player")[0].volume = volume;
+	    				fading = true;
+    					break;
+    				case "Stretch":
+    					$("#peaks_player")[0].playbackRate = 0.5;
+    					stretch = true;
+    					break;
+	    		}
+	    	}
+
+	    	if (!fading) $("#peaks_player")[0].volume = 1;
+	    	if (!stretch) $("#peaks_player")[0].playbackRate = 1;
+	    });
 	});
 }
 
@@ -114,7 +149,7 @@ $(function() {
 
     $("#fade_in").click(function() {
     	peaks_inst.segments.add([{
-    		startTime: 0.1,
+    		startTime: 0,
     		endTime: 10,
     		editable: [false, true],
     		color: '#26ade4',
@@ -128,7 +163,7 @@ $(function() {
     		endTime: $("#peaks_player")[0].duration,
     		editable: [true, false],
     		color: '#26ade4',
-    		labelText: 'Fade In'
+    		labelText: 'Fade Out'
     	}]);
     });
 
