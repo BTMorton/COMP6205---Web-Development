@@ -23,7 +23,7 @@ if (!empty($_GET['segments'])) {
 		<script src="js/jquery.fileupload.js"></script>
 		<script src="bower_components/requirejs/require.js"></script>
 		<script src="js/scripts.js" type="text/javascript"></script>
-		<?php if ($content) { ?>
+		<?php if (isset($content) & !empty($content)) { ?>
 		<script type="text/javascript">
 			var presetSegments = <?=$content?>;
 			$(function() {
