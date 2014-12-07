@@ -1,5 +1,6 @@
 var peaks_inst;
 var playReady = false;
+var presetSegments;
 
 function loadPeaks() {
 	requirejs.config({
@@ -27,6 +28,9 @@ function loadPeaks() {
 			$("#progress").addClass("hidden");
 			$("#peaks_container").removeAttr("style");
 			playReady = true;
+			if (presetSegments != undefined) {
+				loadPresetSegments();
+			}
 			// do something when segments are ready to be displayed
 		});
 
@@ -73,6 +77,114 @@ function loadPeaks() {
 	    	if (!stretch) $("#peaks_player")[0].playbackRate = 1;
 	    });
 	});
+}
+
+function getJSON() {
+	var segments = peaks_inst.segments.getSegments();
+	var json = { 'filename': $("#peaks_player")[0].src, 'fade_in' : [], 'fade_out': [], 'trim' : [], 'silence': [], 'slow': [], 'fast': [] };
+
+	for (var x in segments) {
+		var segment = segments[x];
+
+		var dets = { 'start': segment.startTime, 'end': segment.endTime };
+
+		switch (segment.labelText) {
+			case 'Fade In':
+				json.fade_in.push(dets);
+				break;
+			case 'Fade Out':
+				json.fade_out.push(dets);
+				break;
+			case 'Trim':
+				json.trim.push(dets);
+				break;
+			case 'Silence':
+				json.silence.push(dets);
+				break;
+			case 'Slow Down':
+				json.slow.push(dets);
+				break;
+			case 'Speed Up':
+				json.fast.push(dets);
+				break;
+		}
+	}
+
+	return json;
+}
+
+function loadPreset() {
+	$("#peaks_player")[0].src = presetSegments.filename;
+	$("#peaks_player")[0].load();
+	$("#placeholder").addClass("hidden");
+	$("#progress").removeClass("hidden").removeClass("error");
+	$("#progress_text").text("Generating waveform...");
+	$("#peaks_container").removeClass("hidden").css("height", '0').css('opacity', '0');
+	loadPeaks();
+}
+
+function loadPresetSegments() {
+	for (var x in presetSegments.trim) {
+    	peaks_inst.segments.add([{
+    		startTime: presetSegments.trim[x].start,
+    		endTime: presetSegments.trim[x].end,
+    		editable: true,
+    		color: '#000000',
+    		labelText: 'Trim'
+    	}]);
+    }
+
+    for (var x in presetSegments.silence) {
+    	peaks_inst.segments.add([{
+    		startTime: presetSegments.silence[x].start,
+    		endTime: presetSegments.silence[x].end,
+    		editable: true,
+    		color: '#999999',
+    		labelText: 'Silence'
+    	}]);
+    }
+
+    for (var x in presetSegments.fade_in) {
+    	peaks_inst.segments.add([{
+    		startTime: presetSegments.fade_in[x].start,
+    		endTime: presetSegments.fade_in[x].end,
+    		editable: [false, true],
+    		color: '#26ade4',
+    		labelText: 'Fade In'
+    	}]);
+    }
+
+    for (var x in presetSegments.slow) {
+    	peaks_inst.segments.add([{
+    		startTime: presetSegments.slow[x].start,
+    		endTime: presetSegments.slow[x].end,
+    		editable: true,
+    		color: 'red',
+    		labelText: 'Slow Down'
+    	}]);
+    }
+
+    for (var x in presetSegments.fast) {
+    	peaks_inst.segments.add([{
+    		startTime: presetSegments.fast[x].start,
+    		endTime: presetSegments.fast[x].end,
+    		editable: true,
+    		color: 'orange',
+    		labelText: 'Speed Up'
+    	}]);
+    }
+
+    for (var x in presetSegments.fade_out) {
+    	peaks_inst.segments.add([{
+    		startTime: presetSegments.fade_out[x].start,
+    		endTime: presetSegments.fade_out[x].end,
+    		editable: [true, false],
+    		color: '#26ade4',
+    		labelText: 'Fade Out'
+    	}]);
+    }
+
+	presetSegments = undefined;
 }
 
 $(function() {

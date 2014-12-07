@@ -1,3 +1,14 @@
+<?php
+
+if (!empty($_GET['segments'])) {
+	require_once("signedjsonwebtoken.php");
+
+	$key = 'uCSMdetDReY4MAyVTh7fuq7hZ3tYk9Gyc3GZWpCR3LWkSgmHm9bwzWR2pbnTMzUecuR4mAMj';
+
+	$signer = new SignedJSONWebToken($key);
+	$content = $signer->unsign($_GET['segments']);
+}
+?>
 <html>
 	<head>
 		<title>Ben Morton (bm12g10) and Simon Bidwell (sab3g11) Web Development Coursework</title>
@@ -12,6 +23,14 @@
 		<script src="js/jquery.fileupload.js"></script>
 		<script src="bower_components/requirejs/require.js"></script>
 		<script src="js/scripts.js" type="text/javascript"></script>
+		<?php if ($content) { ?>
+		<script type="text/javascript">
+			var presetSegments = <?=$content?>;
+			$(function() {
+				loadPreset();
+			});
+		</script>
+		<? } ?>
 	</head>
 	<body>
 		<div id="header_wrap">
