@@ -124,7 +124,7 @@ if (!empty($_GET['segments'])) {
 					<p>After a file has been uploaded to Editing, it can be accessed on a unique url. This unique url can be used to share the audio file with other users. To get the unique url for the current audio file being used on Editing, click the Share button underneath the audio player and the unique url will be displayed so it can be copied to the clipboard.</p>
 					<div class="clear"></div>
 
-					<div class="video" data-filename="videos/upload.mp4"></div>
+					<div class="video" data-filename="videos/download.mp4"></div>
 					<h3>9. Save</h3>
 					<p>Saving a file on Editing allows the user to download their edited audio file from the server. After a user is happy with their edited file, clicking the Save button beneath the audio player, will initiate a file transfer to download the audio file to the user's local file space.</p>
 					<div class="clear"></div>
