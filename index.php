@@ -74,7 +74,7 @@ if (!empty($_GET['segments'])) {
 					<div class="control" id="slow"><h3>Slow Down</h3>Select an area of the audio to slow down</div>
 					<div class="control" id="fast"><h3>Speed Up</h3>Select an area of the audio to speed up</div>
 					<div class="control" id="share"><h3>Share</h3>Generate a link to share your audio file</div>
-					<div class="control" id="save"><h3>Save</h3>Download your edited audio file</div>
+					<div class="control" id="save"><div class="spinner" style="display: none;"></div><h3>Save</h3>Download your edited audio file</div>
 				</div>
 			</div>
 			<hr id="tutorials_jump" />

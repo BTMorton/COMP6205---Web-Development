@@ -256,70 +256,82 @@ $(function() {
 	});
 
     $("#trim").click(function() {
-    	peaks_inst.segments.add([{
-    		startTime: peaks_inst.time.getCurrentTime(),
-    		endTime: peaks_inst.time.getCurrentTime() + 10,
-    		editable: true,
-    		color: '#000000',
-    		labelText: 'Trim'
-    	}]);
+    	if (playReady) {
+	    	peaks_inst.segments.add([{
+	    		startTime: peaks_inst.time.getCurrentTime(),
+	    		endTime: peaks_inst.time.getCurrentTime() + 10,
+	    		editable: true,
+	    		color: '#000000',
+	    		labelText: 'Trim'
+	    	}]);
+	    }
     });
 
     $("#silence").click(function() {
-    	peaks_inst.segments.add([{
-    		startTime: peaks_inst.time.getCurrentTime(),
-    		endTime: peaks_inst.time.getCurrentTime() + 10,
-    		editable: true,
-    		color: '#999999',
-    		labelText: 'Silence'
-    	}]);
+    	if (playReady) {
+	    	peaks_inst.segments.add([{
+	    		startTime: peaks_inst.time.getCurrentTime(),
+	    		endTime: peaks_inst.time.getCurrentTime() + 10,
+	    		editable: true,
+	    		color: '#999999',
+	    		labelText: 'Silence'
+	    	}]);
+	    }
     });
 
     $("#fade_in").click(function() {
-    	peaks_inst.segments.add([{
-    		startTime: 0,
-    		endTime: 10,
-    		editable: [false, true],
-    		color: '#26ade4',
-    		labelText: 'Fade In'
-    	}]);
+    	if (playReady) {
+	    	peaks_inst.segments.add([{
+	    		startTime: 0,
+	    		endTime: 10,
+	    		editable: [false, true],
+	    		color: '#26ade4',
+	    		labelText: 'Fade In'
+	    	}]);
+	    }
     });
 
     $("#fade_out").click(function() {
-    	peaks_inst.segments.add([{
-    		startTime: $("#peaks_player")[0].duration - 10,
-    		endTime: $("#peaks_player")[0].duration,
-    		editable: [true, false],
-    		color: '#26ade4',
-    		labelText: 'Fade Out'
-    	}]);
+    	if (playReady) {
+	    	peaks_inst.segments.add([{
+	    		startTime: $("#peaks_player")[0].duration - 10,
+	    		endTime: $("#peaks_player")[0].duration,
+	    		editable: [true, false],
+	    		color: '#26ade4',
+	    		labelText: 'Fade Out'
+	    	}]);
+	    }
     });
 
     $("#slow").click(function() {
-    	peaks_inst.segments.add([{
-    		startTime: peaks_inst.time.getCurrentTime(),
-    		endTime: peaks_inst.time.getCurrentTime() + 10,
-    		editable: true,
-    		color: 'red',
-    		labelText: 'Slow Down'
-    	}]);
+    	if (playReady) {
+	    	peaks_inst.segments.add([{
+	    		startTime: peaks_inst.time.getCurrentTime(),
+	    		endTime: peaks_inst.time.getCurrentTime() + 10,
+	    		editable: true,
+	    		color: 'red',
+	    		labelText: 'Slow Down'
+	    	}]);
+	    }
     });
 
     $("#fast").click(function() {
-    	peaks_inst.segments.add([{
-    		startTime: peaks_inst.time.getCurrentTime(),
-    		endTime: peaks_inst.time.getCurrentTime() + 10,
-    		editable: true,
-    		color: 'orange',
-    		labelText: 'Speed Up'
-    	}]);
+    	if (playReady) {
+	    	peaks_inst.segments.add([{
+	    		startTime: peaks_inst.time.getCurrentTime(),
+	    		endTime: peaks_inst.time.getCurrentTime() + 10,
+	    		editable: true,
+	    		color: 'orange',
+	    		labelText: 'Speed Up'
+	    	}]);
+	    }
     });
 
     $("#share").click(function() {
     	if (playReady) {
 	    	$.post("generate_share_url.php", { segments: JSON.stringify(getJSON()) }, function (url) {
-	    		$("#txt_share").text(url);
 	    		$("#blackout").show();
+	    		$("#txt_share").text(url).focus().select();
 	    	}, 'text');
     	}
     });
@@ -332,8 +344,22 @@ $(function() {
     });
 
 	$("#save").click(function() {
-		$('body').append('<form action="save_file.php" method="post" target="save_frame" id="postToIframe"></form>');
-	    $('#postToIframe').append('<input type="hidden" name="segments" value=\''+JSON.stringify(getJSON())+'\' />');
-	    $('#postToIframe').submit().remove();
+		if (playReady) {
+			if (!$(".spinner", this).is(":visible")) {
+				$("#save .spinner").show();
+				$('body').append('<form action="save_file.php" method="post" target="save_frame" id="postToIframe"></form>');
+			    $('#postToIframe').append('<input type="hidden" name="segments" value=\''+JSON.stringify(getJSON())+'\' />');
+			    $('#postToIframe').submit().remove();
+			}
+		}
+	});
+
+	$("#save_frame").load(function() {
+		$("#save .spinner").hide();
+
+		if ($(this).contentType != "application/octet-stream") {
+			console.log($("body", this).text());
+			$("#save").addClass("error");
+		}
 	});
 });
