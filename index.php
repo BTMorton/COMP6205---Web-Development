@@ -99,12 +99,12 @@ if (!empty($_GET['segments'])) {
 
 					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>4. Fade in</h3>
-					<p>A fade in gradually increases the volume level of an audio signal such that it reaches it’s true volume level starting from silence at the beginning. With the Editing audio editor, Fade in’s are always applied to the start of an audio file. To apply a Fade in function using Editing, press the Fade In button underneath the audio player; this will create a fade in segment on the waveform in the audio player. The segment handles can then be dragged to adjust the length of the fade in function. </p>
+					<p>A fade in gradually increases the volume level of an audio signal such that it reaches it's true volume level starting from silence at the beginning. With the Editing audio editor, Fade in's are always applied to the start of an audio file. To apply a Fade in function using Editing, press the Fade In button underneath the audio player; this will create a fade in segment on the waveform in the audio player. The segment handles can then be dragged to adjust the length of the fade in function. </p>
 					<div class="clear"></div>
 
 					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>5. Fade out</h3>
-					<p>A fade out gradually decreases the volume level of an audio signal such that it is reduced to silence at it’s end. With the Editing audio editor, Fade outs’ are always applied to the end of an audio file. To apply a Fade out function using Editing, press the Fade out button underneath the audio player; this will create a fade out segment on the waveform in the audio player. The segment handles can then be dragged to adjust the length of the fade out function.</p>
+					<p>A fade out gradually decreases the volume level of an audio signal such that it is reduced to silence at it's end. With the Editing audio editor, Fade outs' are always applied to the end of an audio file. To apply a Fade out function using Editing, press the Fade out button underneath the audio player; this will create a fade out segment on the waveform in the audio player. The segment handles can then be dragged to adjust the length of the fade out function.</p>
 					<div class="clear"></div>
 
 					<img src="img/holding.png" alt="Tutorial holding image">
@@ -124,7 +124,7 @@ if (!empty($_GET['segments'])) {
 
 					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>9. Save</h3>
-					<p>Saving a file on Editing allows the user to download their edited audio file from the server. After a user is happy with their edited file, clicking the Save button beneath the audio player, will initiate a file transfer to download the audio file to the user’s local file space.</p>
+					<p>Saving a file on Editing allows the user to download their edited audio file from the server. After a user is happy with their edited file, clicking the Save button beneath the audio player, will initiate a file transfer to download the audio file to the user's local file space.</p>
 					<div class="clear"></div>
 				</div>
 			</div>
