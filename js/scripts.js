@@ -2,12 +2,6 @@ var peaks_inst;
 var playReady = false;
 var presetSegments;
 
-function loadVid(id, filename) {
-	var holder = document.getElementById(id);
- 	embedcode = '<video id=' + id + '" controls autoplay><source src=' + filename + ' type="video/mp4"></video>';
-  	holder.innerHTML = embedcode;
-}
-
 function getJSON() {
 	var segments = peaks_inst.segments.getSegments();
 	var json = { 'filename': $("#peaks_player")[0].src, 'fade_in' : [], 'fade_out': [], 'trim' : [], 'silence': [], 'slow': [], 'fast': [] };
@@ -364,6 +358,19 @@ $(function() {
 				$("#blackout").hide();
 				$("#txt_share").text('');
 			}
+		}
+	});
+
+	$(".stories .video").click(function() {
+		if ($("video", this).length <= 0) {
+			$(this).html('<video controls autoplay><source src="' + $(this).attr('data-filename') + '" type="video/mp4" /></video>');
+			$("video", this).on('ended', function() {
+				$(this).remove();
+			});
+		} else if ($("video", this)[0].paused == false) {
+			$("video", this)[0].pause();
+		} else {
+			$("video", this)[0].play();
 		}
 	});
 });
