@@ -350,22 +350,11 @@ $(function() {
     });
 
 	$("#save").click(function() {
+		$(this).removeClass('error');
 		if (playReady) {
-			if (!$(".spinner", this).is(":visible")) {
-				$("#save .spinner").show();
-				$('body').append('<form action="save_file.php" method="post" target="save_frame" id="postToIframe"></form>');
-			    $('#postToIframe').append('<input type="hidden" name="segments" value=\''+JSON.stringify(getJSON())+'\' />');
-			    $('#postToIframe').submit().remove();
-			}
-		}
-	});
-
-	$("#save_frame").load(function() {
-		$("#save .spinner").hide();
-
-		if ($(this).contentType != "application/octet-stream") {
-			console.log($("body", this).text());
-			$("#save").addClass("error");
+			$('body').append('<form action="save_file.php" method="post" target="_blank" id="postToIframe"></form>');
+			$('#postToIframe').append('<input type="hidden" name="segments" value=\''+JSON.stringify(getJSON())+'\' />');
+			$('#postToIframe').submit().remove();
 		}
 	});
 

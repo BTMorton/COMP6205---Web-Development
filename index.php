@@ -56,16 +56,18 @@ if (!empty($_GET['segments'])) {
 		</div>
 		<div id="wrapper">
 			<div id="editor" class="container">
-				<div id="play_button"></div>
-				<div id="placeholder">
-					Use the uploader above to upload your file and begin editing!
+				<div id="player_container">
+					<div id="play_button"></div>
+					<div id="placeholder">
+						Use the uploader above to upload your file and begin editing!
+					</div>
+					<div id="progress" class="hidden">
+						<div id="progress_bar"></div>
+						<div id="progress_text"></div>
+					</div>
+					<div id="peaks_container" class="hidden"></div>
+					<audio id="peaks_player"></audio>
 				</div>
-				<div id="progress" class="hidden">
-					<div id="progress_bar"></div>
-					<div id="progress_text"></div>
-				</div>
-				<div id="peaks_container" class="hidden"></div>
-				<audio id="peaks_player"></audio>
 				<div class="controls">
 					<div class="control" id="trim"><h3>Trim</h3>Select an area of the audio to cut</div>
 					<div class="control" id="silence"><h3>Silence</h3>Select an area of the audio to silence</div>
@@ -176,6 +178,5 @@ if (!empty($_GET['segments'])) {
 				</div>
 			</div>
 		</footer>
-		<iframe src="" style="opacity: 0; width: 0; height: 0; overflow: hidden;" id="save_frame" name="save_frame"></iframe>
 	</body>
 </html>

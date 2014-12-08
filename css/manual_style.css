@@ -106,33 +106,34 @@ header.fixed {
 	padding: 5px;
 }
 
-#tutorials h3, #stories h3 {
+.stories h3 {
 	color: #d1e751;
 	font-size: 25px;
 	float: left;
-	width: 800px;
+	width: 700px;
 	margin-bottom: 5px;
 }
 
-#tutorials .stories div, #stories .stories div {
+.stories div {
 	clear: both;
 }
 
-#tutorials .stories p, #stories .stories p {
-	width: 800px;
+.stories p {
+	width: 700px;
 	float: left;
 	display: inline-block;
 }
-#tutorials .stories img, #stories .stories img, #tutorials .stories video, #stories .stories video {
+.stories img, .stories video {
 	width: 300px;
 	height: 200px;
 	float: right;
 	display: inline-block;
 	border: 2px solid #d1e751;
 	border-radius: 5px;
+	margin-bottom: 20px;
 }
 
-#tutorials .stories img:hover, #stories .stories img:hover {
+.stories img:hover {
 	border: 2px solid #26ade4;
 	border-radius: 5px;
 	cursor: pointer; 
