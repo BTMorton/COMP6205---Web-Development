@@ -2,83 +2,6 @@ var peaks_inst;
 var playReady = false;
 var presetSegments;
 
-function loadPeaks() {
-	requirejs.config({
-		paths: {
-			peaks: 'bower_components/peaks.js/src/main',
-			EventEmitter: 'bower_components/eventemitter2/lib/eventemitter2',
-			Kinetic: 'bower_components/kineticjs/kinetic',
-			'waveform-data': 'bower_components/waveform-data/dist/waveform-data.min'
-		}
-	});
-
-	// requires it
-	require(['peaks'], function (Peaks) {
-		peaks_inst = Peaks.init({
-			container: document.querySelector('#peaks_container'),
-			mediaElement: document.querySelector('#peaks_player'),
-			height: 200,
-			zoomLevels: [512, 1024, 2048, 4096],
-			keyboard: true,
-			overviewWaveformColor: "#d1e751",
-			zoomWaveformColor: "rgba(0, 0, 0, 0)"
-		});
-
-		peaks_inst.on('segments.ready', function(){
-			$("#progress").addClass("hidden");
-			$("#peaks_container").removeAttr("style");
-			playReady = true;
-			if (presetSegments != undefined) {
-				loadPresetSegments();
-			}
-			// do something when segments are ready to be displayed
-		});
-
-	    peaks_inst.on('player_time_update', function() {
-	    	curSegments = this.segments.getCurrentSegment();
-	    	time = this.time.getCurrentTime();
-	    	var stretch = false, trimmed = false, fading = false;
-
-	    	for (var x in curSegments) {
-	    		segment = curSegments[x];
-
-	    		switch (segment.labelText) {
-	    			case "Fade In":
-	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
-	    				var volume = ((ftime * ftime) / duration) / duration;
-	    				$("#peaks_player")[0].volume = volume;
-	    				fading = true;
-	    				break;
-	    			case "Trim":
-	    				this.player.seekBySeconds(segment.endTime);
-	    				break;
-	    			case "Silence":
-	    				$("#peaks_player")[0].volume = 0;
-	    				fading = true;
-	    				break;
-    				case "Fade Out":
-	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
-	    				var volume = (duration - ((ftime * ftime) / duration)) / duration;
-	    				$("#peaks_player")[0].volume = volume;
-	    				fading = true;
-    					break;
-    				case "Slow Down":
-    					$("#peaks_player")[0].playbackRate = 0.5;
-    					stretch = true;
-    					break;
-    				case "Speed Up":
-    					$("#peaks_player")[0].playbackRate = 2;
-    					stretch = true;
-    					break;
-	    		}
-	    	}
-
-	    	if (!fading) $("#peaks_player")[0].volume = 1;
-	    	if (!stretch) $("#peaks_player")[0].playbackRate = 1;
-	    });
-	});
-}
-
 function getJSON() {
 	var segments = peaks_inst.segments.getSegments();
 	var json = { 'filename': $("#peaks_player")[0].src, 'fade_in' : [], 'fade_out': [], 'trim' : [], 'silence': [], 'slow': [], 'fast': [] };
@@ -185,6 +108,81 @@ function loadPresetSegments() {
     }
 
 	presetSegments = undefined;
+}
+
+function loadPeaks() {
+	requirejs.config({
+		paths: {
+			peaks: 'bower_components/peaks.js/src/main',
+			EventEmitter: 'bower_components/eventemitter2/lib/eventemitter2',
+			Kinetic: 'bower_components/kineticjs/kinetic',
+			'waveform-data': 'bower_components/waveform-data/dist/waveform-data.min'
+		}
+	});
+
+	// requires it
+	require(['peaks'], function (Peaks) {
+		peaks_inst = Peaks.init({
+			container: document.querySelector('#peaks_container'),
+			mediaElement: document.querySelector('#peaks_player'),
+			height: 200,
+			zoomLevels: [512, 1024, 2048, 4096],
+			keyboard: true,
+			overviewWaveformColor: "#d1e751",
+			zoomWaveformColor: "rgba(0, 0, 0, 0)"
+		});
+
+		peaks_inst.on('segments.ready', function(){
+			$("#progress").addClass("hidden");
+			$("#peaks_container").removeAttr("style");
+			playReady = true;
+			if (presetSegments != undefined) {
+				loadPresetSegments();
+			}
+			// do something when segments are ready to be displayed
+		});
+
+	    peaks_inst.on('player_time_update', function() {
+	    	var curSegments = this.segments.getCurrentSegment(), time = this.time.getCurrentTime(), stretch = false, trimmed = false, fading = false;
+
+	    	for (var x in curSegments) {
+	    		segment = curSegments[x];
+
+	    		switch (segment.labelText) {
+	    			case "Fade In":
+	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
+	    				var volume = ((ftime * ftime) / duration) / duration;
+	    				$("#peaks_player")[0].volume = volume;
+	    				fading = true;
+	    				break;
+	    			case "Trim":
+	    				this.player.seekBySeconds(segment.endTime);
+	    				break;
+	    			case "Silence":
+	    				$("#peaks_player")[0].volume = 0;
+	    				fading = true;
+	    				break;
+    				case "Fade Out":
+	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
+	    				var volume = (duration - ftime) / duration;//(duration - ((ftime * ftime) / duration)) / duration;
+	    				$("#peaks_player")[0].volume = volume;
+	    				fading = true;
+    					break;
+    				case "Slow Down":
+    					$("#peaks_player")[0].playbackRate = 0.5;
+    					stretch = true;
+    					break;
+    				case "Speed Up":
+    					$("#peaks_player")[0].playbackRate = 2;
+    					stretch = true;
+    					break;
+	    		}
+	    	}
+
+	    	if (!fading) $("#peaks_player")[0].volume = 1;
+	    	if (!stretch) $("#peaks_player")[0].playbackRate = 1;
+	    });
+	});
 }
 
 $(function() {
@@ -316,4 +314,20 @@ $(function() {
     		labelText: 'Speed Up'
     	}]);
     });
+
+    $("#share").click(function() {
+    	if (playReady) {
+	    	$.post("generate_share_url.php", { segments: JSON.stringify(getJSON()) }, function (url) {
+	    		$("#txt_share").text(url);
+	    		$("#blackout").show();
+	    	}, 'text');
+    	}
+    });
+
+    $("#close_share").click(function(e) {
+    	$("#blackout").hide();
+    	$("#txt_share").text('');
+    	e.preventDefault();
+    	return false;
+    })
 });

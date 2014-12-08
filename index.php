@@ -9,6 +9,7 @@ if (!empty($_GET['segments'])) {
 	$content = $signer->unsign($_GET['segments']);
 }
 ?>
+<!DOCTYPE HTML>
 <html>
 	<head>
 		<title>Ben Morton (bm12g10) and Simon Bidwell (sab3g11) Web Development Coursework</title>
@@ -33,6 +34,12 @@ if (!empty($_GET['segments'])) {
 		<? } ?>
 	</head>
 	<body>
+		<div id="blackout" style="display: none;">
+			<div id="share_box">
+				<textarea id="txt_share" readonly="readonly"></textarea>
+				<a href="#" id="close_share">Close</a>
+			</div>
+		</div>
 		<div id="header_wrap">
 			<header>
 				<div class="container">
@@ -75,47 +82,47 @@ if (!empty($_GET['segments'])) {
 				<h2>Tutorials</h2>
 				<p>The Editing web application features a number of functions. First and foremost Editing allows a user to Upload an MP3 audio file, and after an audio file has been uploaded, users can Trim, Fade in, Fade Out, Stretch, Share and Save the file.</p>
 				<div class="stories">
-					<img src="img/holding.png">
+					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>1. Uploading an Audio File</h3>
-					<p>For Editing to work, an audio file has to be provided. To upload an audio file, click the on the text “upload file to edit” or the upload button in the header at the top of the page. After clicking to upload an audio file, a file selector will open. Using the file selector, navigate to and select the audio file to be edited and then click upload. Once the file upload is completed, the audio player on the homepage of Editing will display the waveform of your audio file ready for editing. Note: Editing only works with mp3 audio files.</p>
+					<p>For Editing to work, an audio file has to be provided. To upload an audio file, click the on the text "upload file to edit" or the upload button in the header at the top of the page. After clicking to upload an audio file, a file selector will open. Using the file selector, navigate to and select the audio file to be edited and then click upload. Once the file upload is completed, the audio player on the homepage of Editing will display the waveform of your audio file ready for editing. Note: Editing only works with mp3 audio files.</p>
 					<div class="clear"></div>
 
-					<img src="img/holding.png">
+					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>2. Trim</h3>
 					<p>A trim will cut any noise within the selected audio range, meaning that the selected range will be entirely deleted. To apply the trim function, first, click on the waveform to indicate a beginning timestamp for the trim. Next, press the trim button underneath the audio player to apply the trim function to the waveform beginning from the selected timestamp. Applying the trim function by pressing the button will add a segment to the waveform. The segment indicates the audio being trimmed and the segment handles can be dragged to change the length of the trim. </p>
 					<div class="clear"></div>
 					
-					<img src="img/holding.png">
+					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>3. Silence</h3>
 					<p>The Silence function will take a selected section of audio and mute the volume for that section. A silence is different from a trim because a trim will skip the trimmed section whereas a silence will play no sound for the silenced section. To apply a silence, click on the waveform where the silence should begin, press the silence button, and then adjust the length of the silence by dragging the silence segment handles.</p>
 					<div class="clear"></div>
 
-					<img src="img/holding.png">
+					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>4. Fade in</h3>
 					<p>A fade in gradually increases the volume level of an audio signal such that it reaches it’s true volume level starting from silence at the beginning. With the Editing audio editor, Fade in’s are always applied to the start of an audio file. To apply a Fade in function using Editing, press the Fade In button underneath the audio player; this will create a fade in segment on the waveform in the audio player. The segment handles can then be dragged to adjust the length of the fade in function. </p>
 					<div class="clear"></div>
 
-					<img src="img/holding.png">
+					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>5. Fade out</h3>
 					<p>A fade out gradually decreases the volume level of an audio signal such that it is reduced to silence at it’s end. With the Editing audio editor, Fade outs’ are always applied to the end of an audio file. To apply a Fade out function using Editing, press the Fade out button underneath the audio player; this will create a fade out segment on the waveform in the audio player. The segment handles can then be dragged to adjust the length of the fade out function.</p>
 					<div class="clear"></div>
 
-					<img src="img/holding.png">
+					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>6. Slow down</h3>
 					<p>A slow down changes the speed of a selected audio segment by a given multiplier to give the effect of a slower audio segment. To apply the slow down function, first, click on the waveform to indicate a beginning timestamp for the slow down. Next, press the slow down button underneath the audio player to apply the slow down function to the waveform beginning from the selected timestamp. Applying the slow down function by pressing the button will add a segment to the waveform. The segment indicates the audio being slowed and the segment handles can be dragged to change the length of the slow.</p>
 					<div class="clear"></div>
 
-					<img src="img/holding.png">
+					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>7. Speed up</h3>
 					<p>A speed up changes the speed of a selected audio segment by a given multiplier to give the effect of a faster audio segment. To apply a speed up function, click on the waveform where the speed up should begin, press the speed up button, and then adjust the length of the speed up by dragging the speed up segment handles.</p>
 					<div class="clear"></div>
 
-					<img src="img/holding.png">
+					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>8. Share</h3>
 					<p>After a file has been uploaded to Editing, it can be accessed on a unique url. This unique url can be used to share the audio file with other users. To get the unique url for the current audio file being used on Editing, click the Share button underneath the audio player and the unique url will be displayed so it can be copied to the clipboard.</p>
 					<div class="clear"></div>
 
-					<img src="img/holding.png">
+					<img src="img/holding.png" alt="Tutorial holding image">
 					<h3>9. Save</h3>
 					<p>Saving a file on Editing allows the user to download their edited audio file from the server. After a user is happy with their edited file, clicking the Save button beneath the audio player, will initiate a file transfer to download the audio file to the user’s local file space.</p>
 					<div class="clear"></div>
