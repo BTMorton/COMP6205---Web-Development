@@ -133,8 +133,8 @@ if (!empty($_GET['segments'])) {
 					<p>A speed up changes the speed of a selected audio segment by a given multiplier to give the effect of a faster audio segment. To apply a speed up function, click on the waveform where the speed up should begin, press the speed up button, and then adjust the length of the speed up by dragging the speed up segment handles.</p>
 					<div class="clear"></div>
 
-					<div class="video" id="uploadingvideo">
-					<img src="img/holding.png" alt="Tutorial holding image" onclick='loadVid("uploadingvideo", "videos/upload.mp4")'>
+					<div class="video" id="sharevideo">
+					<img src="img/holding.png" alt="Tutorial holding image" onclick='loadVid("sharevideo", "videos/share.mp4")'>
 					</div>
 					<h3>8. Share</h3>
 					<p>After a file has been uploaded to Editing, it can be accessed on a unique url. This unique url can be used to share the audio file with other users. To get the unique url for the current audio file being used on Editing, click the Share button underneath the audio player and the unique url will be displayed so it can be copied to the clipboard.</p>
