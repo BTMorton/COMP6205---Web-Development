@@ -5,7 +5,7 @@ function decode_mp3($in_file, $out_file = "", $unlink = false) {
 	if (empty($out_file)) $out_file = dirname($in_file)."/".basename($in_file, ".mp3").".wav";
 
 	echo "Decoding: ".$in_file." -> ".$out_file."\n";
-	exec("sox ".escapeshellarg($in_file)." ".escapeshellarg($out_file), $dec_out, $dec_result);
+	exec("sox ".escapeshellarg($in_file)." ".escapeshellarg($out_file)." gain -h", $dec_out, $dec_result);
 
 	if ($dec_result == 0) {
 		return true;
@@ -148,7 +148,7 @@ function fade($in_file, $fade_in, $fade_out = 0, $out_file = '', $unlink = false
 	$otime = escapeshellarg(sprintf("%d:%02f", (int)($fade_out / 60), ($fade_out % 60)));
 	$ltime = escapeshellarg(sprintf("%d:%02f", (int)($file_len / 60), ($file_len % 60)));
 
-	exec ('sox '.escapeshellarg($in_file).' '.escapeshellarg($out_file).' fade h '.$itime.' '.$ltime.' '.$otime, $trim_out, $trim_result);
+	exec ('sox '.escapeshellarg($in_file).' '.escapeshellarg($out_file).' gain -en fade h '.$itime.' '.$ltime.' '.$otime, $trim_out, $trim_result);
 
 	if ($trim_result == 0) {
 		if ($empt_out) {
