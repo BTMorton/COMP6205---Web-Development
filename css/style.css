@@ -187,8 +187,13 @@ header.fixed {
 }
 
 #wrapper p {
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	padding: 5px;
+}
+
+#editor #player_container {
+	height: 200px;
+	overflow: hidden;
 }
 
 #editor #play_button {
@@ -276,6 +281,7 @@ header.fixed {
 
 #editor #peaks_container {
 	height: 200px;
+	font-size: 0;
 }
 
 #editor #peaks_container .overview-container {
@@ -315,25 +321,11 @@ header.fixed {
 	position: relative;
 }
 
-#editor #save .spinner {
-	z-index: 1000;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(128, 128, 128, 0.75);
-	background-image: URL("../img/loading.svg");
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: auto 65%;
-}
-
 #tutorials h3 {
 	color: #d1e751;
 	font-size: 25px;
 	float: left;
-	width: 800px;
+	width: 700px;
 	margin-bottom: 5px;
 }
 
@@ -342,7 +334,7 @@ header.fixed {
 }
 
 #tutorials .stories p {
-	width: 800px;
+	width: 700px;
 	float: left;
 	display: inline-block;
 }
@@ -353,6 +345,7 @@ header.fixed {
 	display: inline-block;
 	border: 2px solid #d1e751;
 	border-radius: 5px;
+	margin-bottom: 20px;
 }
 
 #tutorials .stories img:hover {
