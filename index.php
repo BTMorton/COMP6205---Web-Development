@@ -158,5 +158,6 @@ if (!empty($_GET['segments'])) {
 				</div>
 			</div>
 		</footer>
+		<iframe src="" style="opacity: 0; width: 0; height: 0; overflow: hidden;" id="save_frame" name="save_frame"></iframe>
 	</body>
 </html>

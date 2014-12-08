@@ -164,7 +164,7 @@ function loadPeaks() {
 	    				break;
     				case "Fade Out":
 	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
-	    				var volume = (duration - ftime) / duration;//(duration - ((ftime * ftime) / duration)) / duration;
+	    				var volume = (duration - ((ftime * ftime) / duration)) / duration;
 	    				$("#peaks_player")[0].volume = volume;
 	    				fading = true;
     					break;
@@ -329,5 +329,11 @@ $(function() {
     	$("#txt_share").text('');
     	e.preventDefault();
     	return false;
-    })
+    });
+
+	$("#save").click(function() {
+		$('body').append('<form action="save_file.php" method="post" target="save_frame" id="postToIframe"></form>');
+	    $('#postToIframe').append('<input type="hidden" name="segments" value=\''+JSON.stringify(getJSON())+'\' />');
+	    $('#postToIframe').submit().remove();
+	});
 });
