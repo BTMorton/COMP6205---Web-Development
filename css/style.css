@@ -274,9 +274,12 @@ header.fixed {
 
 #editor .error #progress_bar { display: none; }
 
-#editor #peaks_container .overview-container, #editor #peaks_container .zoom-container {
-	/*display: none;*/
-	width: 869px;
+#editor #peaks_container {
+	height: 200px;
+}
+
+#editor #peaks_container .overview-container {
+	width: 100%;
 	display: inline-block;
 	overflow: hidden;
 }
@@ -286,6 +289,7 @@ header.fixed {
 	opacity: 0;
 	height: 0;
 	width: 1px;
+	overflow: hidden;
 }
 
 #editor .control {
@@ -427,4 +431,41 @@ footer a {
 }
 footer a:hover {
 	color: #fff;
+}
+
+@media (max-width: 1374px) and (min-width: 1124px) {
+	.container {
+		width: 774px;
+	}
+	#editor #peaks_container, #editor #progress, #editor #placeholder {
+		width: 619px;
+	}
+	#editor #placeholder {
+		font-size: 38px;
+	}
+	#editor #progress {
+		font-size: 35px;
+	}
+	#tutorials .stories p, #tutorials h3 {
+		width: 550px;
+	}
+}
+
+@media (max-width: 1123px) {/* and (min-width: 874px)*/
+	.container {
+		width: 524px;
+	}
+	#editor #peaks_container, #editor #progress, #editor #placeholder {
+		width: 369px;
+	}
+	#editor #placeholder {
+		font-size: 31px;
+		padding: 27px 20px;
+	}
+	#editor #progress {
+		font-size: 30px;
+	}
+	#tutorials .stories p, #tutorials h3 {
+		width: 300px;
+	}
 }
