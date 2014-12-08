@@ -362,4 +362,13 @@ $(function() {
 			$("#save").addClass("error");
 		}
 	});
+
+	$(document).keyup(function(e) {
+		if (e.keyCode == 27) {
+			if ($("#blackout").is(':visible')) {
+				$("#blackout").hide();
+				$("#txt_share").text('');
+			}
+		}
+	});
 });
