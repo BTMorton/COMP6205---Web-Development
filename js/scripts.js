@@ -2,6 +2,12 @@ var peaks_inst;
 var playReady = false;
 var presetSegments;
 
+function loadVid(id, filename) {
+	var holder = document.getElementById(id);
+ 	embedcode = '<video id=' + id + '" controls autoplay><source src=' + filename + ' type="video/mp4"></video>';
+  	holder.innerHTML = embedcode;
+}
+
 function getJSON() {
 	var segments = peaks_inst.segments.getSegments();
 	var json = { 'filename': $("#peaks_player")[0].src, 'fade_in' : [], 'fade_out': [], 'trim' : [], 'silence': [], 'slow': [], 'fast': [] };
