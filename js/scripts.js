@@ -143,7 +143,7 @@ function loadPeaks() {
 		});
 
 	    peaks_inst.on('player_time_update', function() {
-	    	var curSegments = this.segments.getCurrentSegment(), time = this.time.getCurrentTime(), stretch = false, trimmed = false, fading = false;
+	    	var curSegments = this.segments.getCurrentSegment(), time = this.time.getCurrentTime(), trimmed = false, fading = false, slow = false, fast = false;
 
 	    	for (var x in curSegments) {
 	    		segment = curSegments[x];
@@ -152,37 +152,54 @@ function loadPeaks() {
 	    			case "Fade In":
 	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
 	    				var volume = ((ftime * ftime) / duration) / duration;
-	    				$("#peaks_player")[0].volume = volume;
+	    				setVolume(volume);
 	    				fading = true;
 	    				break;
 	    			case "Trim":
 	    				this.player.seekBySeconds(segment.endTime);
 	    				break;
 	    			case "Silence":
-	    				$("#peaks_player")[0].volume = 0;
+	    				setVolume(0);
 	    				fading = true;
 	    				break;
     				case "Fade Out":
 	    				var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
 	    				var volume = (duration - ((ftime * ftime) / duration)) / duration;
-	    				$("#peaks_player")[0].volume = volume;
+	    				setVolume(volume);
 	    				fading = true;
     					break;
     				case "Slow Down":
-    					$("#peaks_player")[0].playbackRate = 0.5;
-    					stretch = true;
+    					slow = true;
     					break;
     				case "Speed Up":
-    					$("#peaks_player")[0].playbackRate = 2;
-    					stretch = true;
+    					fast = true;
     					break;
 	    		}
 	    	}
 
-	    	if (!fading) $("#peaks_player")[0].volume = 1;
-	    	if (!stretch) $("#peaks_player")[0].playbackRate = 1;
+	    	if (!fading) setVolume(1);
+	    	
+	    	if (slow == fast) {
+	    		setRate(1);
+	    	} else if (slow) {
+	    		setRate(0.5);
+	    	} else {
+	    		setRate(2);
+	    	}
 	    });
 	});
+}
+
+function setVolume(vol) {
+	if ($("#peaks_player")[0].volume != vol) {
+		$("#peaks_player")[0].volume = vol;
+	}
+}
+
+function setRate(rate) {
+	if ($("#peaks_player")[0].playbackRate != rate) {
+		$("#peaks_player")[0].playbackRate = rate;
+	}
 }
 
 $(function() {
