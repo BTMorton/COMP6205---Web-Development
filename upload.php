@@ -12,8 +12,8 @@ if (!empty($_FILES)) {
 		$fileParts  = pathinfo($_FILES['file_upload']['name']);
 
 		if ($fileParts['extension'] == "mp3" && $_FILES['file_upload']['type'] == 'audio/mp3') {
-			$new_name = str_replace(array('.',' ','-'),'', $fileParts['filename'])."-";
-			$new_name .= str_replace(array('.',' ','-'),'', uniqid(true));
+			$new_name = str_replace(array('.',' ','-', '/'),'', $fileParts['filename'])."-";
+			$new_name .= str_replace(array('.',' ','-', '/'),'', uniqid(true));
 
 			$targetFile = $targetPath . $new_name . "." . $fileParts['extension'];
 
