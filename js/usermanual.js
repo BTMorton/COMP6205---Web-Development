@@ -12,9 +12,12 @@ $(function() {
         } else if ($(window).scrollTop() > ($("#stories").offset().top - $("#stories h2").height() - 35)) {
             $("header .nav a:not(.stories).active").removeClass("active");
             $("header .nav .stories").addClass("active");
-        } else {
+        } else if ($(window).scrollTop() > ($("#tutorials").offset().top - $("#tutorials h2").height() - 35)) {
             $("header .nav a:not(.tuts).active").removeClass("active");
             $("header .nav .tuts").addClass("active");
+        } else {
+            $("header .nav a:not(.intro).active").removeClass("active");
+            $("header .nav .intro").addClass("active");
         }
     });
 
