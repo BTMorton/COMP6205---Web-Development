@@ -1,5 +1,4 @@
 <?php
-
 if (!empty($_GET['segments'])) {
 	require_once("signedjsonwebtoken.php");
 
@@ -31,7 +30,7 @@ if (!empty($_GET['segments'])) {
 				loadPreset();
 			});
 		</script>
-		<? } ?>
+		<?php } ?>
 	</head>
 	<body>
 		<div id="blackout" style="display: none;">
