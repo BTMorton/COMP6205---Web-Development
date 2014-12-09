@@ -1,0 +1,395 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Ben Morton (bm12g10) and Simon Bidwell (sab3g11) Web Development Coursework</title>
+		<link rel="stylesheet" href="css/reset.min.css" />
+		<link rel="stylesheet" href="css/muli.css" type="text/css" />
+		<link rel="stylesheet" href="bower_components/jquery-ui/themes/smoothness/jquery-ui.css" />
+		<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css" />
+		<link rel="stylesheet" href="css/manual_style.css" />
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+		<script src="bower_components/requirejs/require.js"></script>
+		<script src="js/usermanual.js"></script>
+	</head>
+	<body>
+		<div class="header_wrap" id="introduction_jump">
+			<header>
+				<div class="container">
+					<h1>Editing User Manual</h1>
+					<div class="nav">
+						<a href="#introduction_jump" class="active">Introduction</a><a href="#arch_jump">Architecture</a><a href="#design_jump">Design</a><a href="#html_jump">HTML5 Audio</a><a href="#php_jump">Backend</a><a href="#conclusion_jump">Conclusion</a><a href="#about_jump">About</a>
+					</div>
+				</div>
+			</header>
+		</div>
+		<div id="wrapper">
+			<div id="introduction" class="container">
+				<h2>Introduction</h2>
+				<p>This technical manual provides details on Editing, a HTML5 Audio editing application that allows for fast tinkering with and live playback of mp3 files. Editing allows users to upload, trim, silence, fade in, fade out, slow down, speed up, share and save mp3 files. It is built on top of a php backend and makes use of multiple javascript libraries to provide a fully responsive user interface that will scale to the users viewpoint and give an instant response to any changes the user makes to an audio file.</p>
+				<p>Editing has been created by Ben Morton and Simon Bidwell for the COMP6205 - Web Architecture module at the University of Southampton, and is not intended as a replacement for industry standard editing tools, it is instead intended for use as a quick prototyping mechanism or for when a user is without their usual software. </p>
+				<p>The following technical manual will examine how Editing works in detail, covering the System Architecture, the supporting technologies and techniques used in Editing, design decisions made in the process of building Editing, as well as in depth look at the code underpinning the application and the software engineering challenges that had to be overcome. Due to it's nature as a technical manual, this document is not intended to be read by someone without a strong understanding of software engineering principles.</p>
+			</div>
+			<hr id="arch_jump"/>
+			<div id="arch" class="container">
+				<h2>System Architecture</h2>
+				<p>Editing is build on top of a php backend which serves a HTML frontend, with much of the functionality provided by javascript libraries. </p>
+				<p>The application is all one page meaning that index.php is the primary class for serving HTML to the end user. The other php files are all helper classes that provide extra functionality to index.php. upload.php is called when a user uploads an audio file to the application, save_file.php is a helper class called from index.php when the user wants to download their audio file and generate_share_url.php is called when the user wants to get a url to share their audio file. signedjsonwebtoken.php is used by generate_share_url.php to provide a signed json web token that is used in the generation of the share url. </p>
+				<p>In the production of Editing, we have made use of a tool called Bower for managing javascript dependencies, and the bower.json file can be used to install all of the publicly available javascript libraries that Editing uses. The bower.json file also stores information about the editing application such as it's authors and a description. </p>
+				<p>Alongside the base php and bower.json files there are a few different directories to be found. The audio directory is where user's audio files are stored after being uploaded, the css directory contains all of the css files used to style the Editing application, the fonts directory contains the Muli font also used to style the application, img contains the images served in the html provided by index.php, js contains javascript files not available via bower (including scripts.js which has been written solely for use with Editing) and the videos directory contains all of the tutorial videos featured both on the Editing application page and the user manual. The system architecture can be seen in Figure 1. see EditingUML.png in the repo - probably need a better way of wording it than see the following diagram, the diagram isnt great but yolo</p>
+			</div>
+			<hr id="design_jump" />
+			<div id="design" class="container">
+				<h2>Responsive Design and Functionality</h2>
+				<p>The web is an incredibly wide-reaching development environment and as such caters to a large number of users with varying sizes of device. To cater for this Editing uses a dynamically resizing responsive layout. Using some simple <code>@media</code> queries we are able to specify different element layouts and sizes depending upon the size of the screen being used to display the content. Figure 2 shows a snippet of code taken from line 472 onwards in css/styles.css.</p>
+<pre><code>Line 472:
+@media (max-width: 1374px) and (min-width: 1124px) {
+	.container {
+		width: 774px;
+	}
+....
+Line 485:
+	#tutorials .stories p, #tutorials h3 {
+		width: 450px;
+	}
+}
+
+@media (max-width: 1123px) {/* and (min-width: 874px)*/
+	.container {
+		width: 524px;
+	}
+....
+Line 504:
+	#tutorials .stories p, #tutorials h3 {
+		width: 200px;
+	}
+}
+
+</code></pre>
+				<strong>Figure 2: Code snippet of responsive CSS. Source file: css/styles.css</strong>
+				<p>Due to the single page layout of our design, navigation becomes a large issue. Unlike most web pages, having a simple navigation at the top of the page, and sometimes additional links in the footer, will quickly become unusable thanks to the length of the page. Clicking most of the links would result in not being able to access any other navigation without having to scroll around the page. To counter this, we adjusted our header navigation bar to display at the top of the page, regardless where on the page the user is viewing. Using a javascript event handler on the window's scroll event, it is possible to add fixed positioning to the navigation element, as can be seen from the code snippets in Figures 3 &amp; 4.</p>
+<pre><code>Line 78:
+header {
+	background-color: #26ade4;
+	width: 100%;
+	z-index: 1000;
+}
+
+....
+Line 142:
+header .nav {
+	position: absolute;
+	bottom: 0;
+}
+
+header .nav a {
+	text-decoration: none;
+	display: inline-block;
+	padding: 5px 20px;
+	color: #147ea9;
+	text-transform: uppercase;
+}
+
+header .nav a.active, header .nav a:hover {
+	color: #fff;
+	border-bottom: 4px solid #4dbce9;
+}
+
+header.fixed {
+	position: fixed;
+	top: -165px;
+	left: 0;
+}
+</code></pre>
+				<strong>Figure 3. CSS detailing the header navigation and fixed positioning. Source file: css/styles.css</strong>
+<pre><code>Line 205:
+$(function() {
+	$(window).scroll(function() {
+		if ($(window).scrollTop() >= 165) {
+		   $('header').addClass('fixed');
+		} else {
+		   $('header').removeClass('fixed');
+		}
+	});
+});
+</code></pre>
+				<strong>Figure 4. Javascript using jQuery event listeners to handle window scroll event. Source file: js/scripts.js</strong>
+			</div>
+			<hr id="html_jump" />
+			<div id="html" class="container">
+				<h2>HTML5 Audio Playback and Waveform Generation</h2>
+				<p>One of the core components of this project was playing and manipulating audio files. In order to do this on the client side, we use HTML5 audio elements. This allows us to make real-time adjustments to the audio as it is being played. Whilst not necessarily the most accurate representation of the audio, it uses built-in browser technologies and is a relatively lightweight solution. The HTML5 audio element is a part of the W3C standard and therefore will work equivalently across all browsers and devices.</p>
+				<p>To enable editing of the audio we needed to create a user-friendly interface with a representation of the audio. In most audio editing environments, this includes displaying a waveform of the audio file for users to be able to pick out parts of the audio file that may need work, or key points to edit around. In order to ensure a familiar experience for users and to allow them to be immediately comfortable in the environment, we decided to replicate this display.</p>
+				<p>A recently popularised extension of the HTML5 audio element is the Web Audio API. This API allows for large amounts of additional functionality to be done with audio in browser. The BBC's Research and Development team have released a javascript library that can make use of the Web Audio API to render the waveform for an audio file. Using the data the API provides, it then creates new canvas elements which draw the waveform, time markers and a playhead to allow users to monitor progression of the audio, an example of which can be seen in Figure 5. The <a href="http://waveform.prototyping.bbc.co.uk/" target="_blank">peaks.js</a> library also provides a series of event handlers and other functionality which the project was able to make use of. Some examples are shown in Figure 6.</p>
+<pre><code>Line 113:
+function loadPeaks() {
+	requirejs.config({
+		paths: {
+			peaks: 'bower_components/peaks.js/src/main',
+			EventEmitter: 'bower_components/eventemitter2/lib/eventemitter2',
+			Kinetic: 'bower_components/kineticjs/kinetic',
+			'waveform-data': 'bower_components/waveform-data/dist/waveform-data.min'
+		}
+	});
+
+	// requires it
+	require(['peaks'], function (Peaks) {
+		peaks_inst = Peaks.init({
+			container: document.querySelector('#peaks_container'),
+			mediaElement: document.querySelector('#peaks_player'),
+			height: 200,
+			zoomLevels: [512, 1024, 2048, 4096],
+			keyboard: true,
+			overviewWaveformColor: "#d1e751",
+			zoomWaveformColor: "rgba(0, 0, 0, 0)"
+		});
+
+		peaks_inst.on('segments.ready', function(){
+			$("#progress").addClass("hidden");
+			$("#peaks_container").removeAttr("style");
+			playReady = true;
+			if (presetSegments != undefined) {
+				loadPresetSegments();
+			}
+			// do something when segments are ready to be displayed
+		});
+
+		peaks_inst.on('player_time_update', function() {
+			var curSegments = this.segments.getCurrentSegment(), time = this.time.getCurrentTime(), trimmed = false, fading = false, slow = false, fast = false;
+
+			for (var x in curSegments) {
+				segment = curSegments[x];
+
+				switch (segment.labelText) {
+					case "Fade In":
+						var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
+						var volume = ((ftime * ftime) / duration) / duration;
+						setVolume(volume);
+						fading = true;
+						break;
+					case "Trim":
+						this.player.seekBySeconds(segment.endTime);
+						break;
+					case "Silence":
+						setVolume(0);
+						fading = true;
+						break;
+					case "Fade Out":
+						var ftime = time - segment.startTime, duration = segment.endTime - segment.startTime;
+						var volume = (duration - ((ftime * ftime) / duration)) / duration;
+						setVolume(volume);
+						fading = true;
+						break;
+					case "Slow Down":
+						slow = true;
+						break;
+					case "Speed Up":
+						fast = true;
+						break;
+				}
+			}
+
+			if (!fading) setVolume(1);
+			
+			if (slow == fast) {
+				setRate(1);
+			} else if (slow) {
+				setRate(0.5);
+			} else {
+				setRate(2);
+			}
+		});
+	});
+}
+</code></pre>
+				<strong>Figure 6. Loading and usage of the peaks.js library. Source file: js/scripts.js</strong>
+				<p>Another feature provided by peaks.js is the ability to add segments to the audio. As can be seen in Figure 7, these segments are sections that can be added to the waveform and adjusted as necessary. For the Editing user interface, these segments can be added to specify areas of the audio that will have different effects applied to them during playback, the handling of which can be seen in Figure 6. Figure 8 shows how a segment can be added to the waveform. In order to allow for single sided editing of a segment, we were required to fork the peaks.js library on GitHub to allow an array to be set for the "editable" parameter, specifying whether the in and out points can be edited.</p>
+<pre><code>Line 299:
+	$("#fade_in").click(function() {
+		if (playReady) {
+			peaks_inst.segments.add([{
+				startTime: 0,
+				endTime: 10,
+				editable: [false, true],
+				color: '#26ade4',
+				labelText: 'Fade In'
+			}]);
+		}
+	});
+
+	$("#fade_out").click(function() {
+		if (playReady) {
+			peaks_inst.segments.add([{
+				startTime: $("#peaks_player")[0].duration - 10,
+				endTime: $("#peaks_player")[0].duration,
+				editable: [true, false],
+				color: '#26ade4',
+				labelText: 'Fade Out'
+			}]);
+		}
+	});
+</code></pre>
+				<strong>Figure 8. Javascript demonstrating how to add segments to the peaks.js waveform. Source file: js/scripts.js</strong>
+			</div>
+			<hr id="php_jump" />
+			<div id="php" class="container">
+				<h2>PHP Backend</h2>
+				<p>On the server side of the project, a simple PHP backend was used. PHP is a widely used language for developing websites and has a large amount of support documentation. Due to the limited server side requirements of this project - only loading the page and file up/downloads - it was decided to not use a fully fledged framework, due to the excess of features that would not be utilised and the added overhead. Instead, single page solutions were developed to handle the required functionality.</p>
+				<p>One of the first big hurdles to cross in a project like this is the ability to transfer audio files. In order to start editing, a file must first be uploaded. This opens the door for many security risks that need to be covered. Figure 9 shows how we have endeavored to cover as many of the most common file uploads holes as possible. In addition to checking the file extension and the content-type, we have ensured any extra hidden file extensions are removed and that filenames are sanitized, as well as that the correct permissions are established.</p>
+<pre><code>Line 8:
+if (!empty($_FILES)) {
+	if (empty($_FILES['file_upload']['error'])) {
+		$tempFile = $_FILES['file_upload']['tmp_name'];
+		$targetPath = "audio/";
+		$fileParts  = pathinfo($_FILES['file_upload']['name']);
+
+		if ($fileParts['extension'] == "mp3" && $_FILES['file_upload']['type'] == 'audio/mp3') {
+			$new_name = str_replace(array('.',' ','-', '/'),'', $fileParts['filename'])."-";
+			$new_name .= str_replace(array('.',' ','-', '/'),'', uniqid(true));
+
+			$targetFile = $targetPath . $new_name . "." . $fileParts['extension'];
+
+			if (file_exists(__DIR__ . "/" . $targetFile)) {
+				$out['error'] = "A file with that name already exists.";
+			} else {
+				if (move_uploaded_file($tempFile, __DIR__ . "/" . $targetFile)) {
+					if (chmod(__DIR__ . "/" . $targetFile, 0644)) {
+						$out['file_name'] = $targetFile;
+					} else {
+						$out['error'] = "Unable to set file permissions.";
+					}
+</code></pre>
+				<strong>Figure 9. PHP code for handling file uploads. Source file: upload.php</strong><p></p>
+				<p>The next big hurdle comes when creating the downloadable mp3 file. Developing a pure PHP solution that does this would be a difficult task that could take a large development period. Instead, we opted to utilise command line audio editing tools and called them from within PHP. A piece of software called <a href="http://sox.sourceforge.net/" target="_blank">SoX</a> was used to do the server-side editing and create a file that can be downloaded by the user. SoX only handles .wav files so the audio file must also be decoded from and re-encoded to MP3 at either end of the process. Currently, one of the few ways to handle MP3 encoding is using the <a href="http://lame.sourceforge.net/" target="_blank">Lame</a> MP3 encoder. This is a utility available to download on most linux distributions. Examples of using SoX and Lame and the efforts to prevent command line hacking can be seen in Figure 10.</p>
+<pre><code>Line 17:
+function encode_mp3($in_file, $out_file = "", $unlink = false) {
+	if (empty($out_file)) $out_file = dirname($in_file)."/".basename($in_file, ".wav").".mp3";
+
+	echo "Encoding: ".$in_file." -> ".$out_file."\n";
+	exec("lame --quiet -h -b192 ".escapeshellarg($in_file)." ".escapeshellarg($out_file), $enc_out, $enc_result);
+
+	if ($enc_result == 0) {
+		if ($unlink) unlink($in_file);
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+function trim_file($in_file, $start = 0, $end = 0, $out_file = "", $unlink = false) {
+	$empt_out = false;
+
+	if (empty($out_file)) {
+		$empt_out = true;
+		$out_file = tempnam("/tmp/", basename($in_file, ".wav"));
+		rename($out_file, $out_file.".wav");
+		$out_file .= ".wav";
+	}
+
+	$length = $end - $start;
+
+	if ($length <= 0) return false;
+
+	$stime = sprintf("%d:%02f", (int)($start / 60), ($start % 60));
+	$etime = sprintf("%d:%02f", (int)($end / 60), ($end % 60));
+	$ltime = sprintf("%d:%02f", (int)($length / 60), ($length % 60));
+
+	exec("sox ".escapeshellarg($in_file)." ".escapeshellarg($out_file)." trim 0 ".escapeshellarg($stime)." ".escapeshellarg($ltime), $trim_out, $trim_result);
+
+	if ($trim_result == 0) {
+		if ($empt_out) {
+			unlink($in_file);
+			rename($out_file, $in_file);
+		} elseif ($unlink) unlink($in_file);
+
+		return true;
+	} else {
+		return false;
+	}
+}
+</pre></code>
+				<strong>Figure 10. PHP code demonstrating SoX and Lame usage. Source: save_file.php</strong>
+				<p>Allowing users to be able to share their creations is a key part of the project that we wanted to include. In order to do this, we decided to use signed JSON tokens to represent the data required to replicate the changes that have been made. Whilst this provides a less than beautiful URL to share, it is less of an issue as it will not be required to be typed. In that case, a URL shortening website can be used. The benefits of using signed JSON tokens are that we can ensure that any tokens used have been signed by us and definitely came from our web page. It also means we do not need to manage any databases in order to store details, as all the information is there in the URL. Figure 11 shows part of the code for creating the token.</p>
+<pre><code>Line 16:
+	public function sign($string) {
+		$this->makeHeader();
+		$header = json_encode($this->makeHeader());
+		$content = $this->base64url_encode($header).$this->seperator.$this->base64url_encode($string);
+		$content .= $this->seperator.$this->base64url_encode($this->makeSignature($content));
+		return $content;
+	}
+
+	public function unsign($string) {
+		list($header, $content, $sig) = explode($this->seperator, $string);
+		$header_arr = json_decode($this->base64url_decode($header));
+		
+		if ($header_arr->method == $this->method && $this->verifySignature($header.$this->seperator.$content, $this->base64url_decode($sig))) {
+			return $this->base64url_decode($content);
+		} else {
+			return false;
+		}
+	}
+
+	private function makeHeader() {
+		return array('method' => $this->method);
+	}
+
+	private function makeSignature($string) {
+		return hash_hmac($this->method, $string, $this->secret);
+	}
+
+	private function verifySignature($string, $sig) {
+		$test_sig = $this->makeSignature($string);
+		
+		return $sig == $test_sig;
+	}
+</pre></code>
+				<strong>Figure 11. Generation of the signed JSON tokens. Source file: signedjsonwebtoken.php</strong>
+				<p>In addition to the PHP backend, the project makes use of a package manager called <a href="http://bower.io/" target="_blank">Bower</a>. Despite being a Node.JS based utility, Bower provides a utility that automatically downloads required packages when setting up the project on a new machine. This prevents having to include the libraries in the versioning system, especially when there will be no changes to them throughout the project.</p>
+			</div>
+			<hr id="conclusion_jump" />
+			<div id="conclusion" class="container">
+				<h2>Conclusion</h2>
+				<p>During the process of developing this project, we have learned many new skills. The design and implementation of the design process has given us a large amount of practice in creating responsive HTML5 documents making full use of CSS and Javascript technologies. Working with embedded audio elements and the associated graphics and functionality provided an insight into some widely used and oft under-appreciated web tools, such as iPlayer and it's radio counterparts.</p>
+				<p>Working with and extending upon the peaks.js library gave an invaluable insight into working on Open Source projects with other members of the Open Source community. Working on a single page application required a different mindset to projects worked on in the past and putting the focus on the client-side javascript libraries was an interesting experience.</p>
+				<p>All in all, the project was great fun to implement and, helpfully, aligned with several of our own personal interests. What was created was a relatively well polished product that is both functional and stylish and fulfills the goals we initially set out in our brief, covering all 5 of our user stories.</p>
+				<p>A live example of the web page can be seen <a href="" target="_blank">here</a>. The audio output by the system can be played below:</p>
+				<audio controls></audio>
+			</div>
+			<hr id="about_jump" />
+			<div id="about" class="container">
+				<h2>About</h2>
+				<p>Editing is a HTML5 web application created by <a href="mailto:bm12g10@soton.ac.uk">Ben Morton</a> and <a href="mailto:sab3g11@soton.ac.uk">Simon Bidwell</a> for COMP6205: Web Development. The tool makes use of javascript, php and HTML5 Audio to create an audio editing application with sharing, saving and live playback.</p> 
+				<p>Due to its responsive design that adapts to the users viewpoint and intuitive user interface, Editing can be used on a wide variety of devices. After uploading an audio file, users can trim, fade in, fade out, stretch, share and export their file, regardless of their access device, allowing for quick and easy audio editing in an easily accessible, web application. </p>
+				<div class="name">
+					<div class="photo ben"></div>
+					<p>Ben is a 4th year Computer Science MEng student, currently studying at the University of Southampton. He is a keen software developer with large amounts of experience in various languages, as well as having a large interest in media, working with the Students' Union in audio and video mixing and editing. Ben has taken on many part time jobs working as a Web Developer and has also worked in server administration, being entrusted with setting up various types of servers.</p>
+				</div><div class="name">
+					<div class="photo simon"></div>
+					<p>Simon is a 4th year Computer Science MENg student with a passion for web design, programming and sports, studying at The University of Southampton. Two years ago Simon interned as a Research Assistant for the Electronics and Computer Science Department at The University of Southampton, and in the summer of 2014 he was a Summer Student for the LHCb project at CERN, Geneva, working specifically on the DIRAC Grid Computing Solution.</p>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="container">
+				<h3>COMP6205 - Web Development</h3>
+				<div class="nav">
+					<h4>Navigation</h4>
+					<a href="#header_wrap">Introduction</a><br />
+					<a href="#arch_jump">Architecture</a><br />
+					<a href="#design_jump">Design</a><br />
+					<a href="#html_jump">HTML5 Audio</a><br />
+					<a href="#php_jump">Backend</a><br />
+					<a href="#conclusion_jump">Conclusion</a><br />
+					<a href="#about_jump">About</a><br />
+				</div>
+				<div class="contact">
+					<h4>Contact</h4>
+					<a href="mailto:bm12g10@soton.ac.uk">Ben Morton</a><br />
+					<a href="mailto:sab3g11@soton.ac.uk">Simon Bidwell</a>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>

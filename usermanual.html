@@ -13,12 +13,12 @@
 		<script src="js/usermanual.js"></script>
 	</head>
 	<body>
-		<div id="header_wrap">
+		<div class="header_wrap" id="introduction_jump">
 			<header>
 				<div class="container">
 					<h1>Editing User Manual</h1>
 					<div class="nav">
-						<a href="#header_wrap" class="intro active">Introduction</a><a href="#tuts_jump" class="tuts">Tutorials</a><a href="#stories_jump" class="stories">User Stories</a><a href="#about_jump" class="about">About</a>
+						<a href="#introduction_jump" class="intro active">Introduction</a><a href="#tutorials_jump" class="tuts">Tutorials</a><a href="#stories_jump" class="stories">User Stories</a><a href="#about_jump" class="about">About</a>
 					</div>
 				</div>
 			</header>
@@ -31,7 +31,7 @@
 				<p>Editing has been created by Ben Morton and Simon Bidwell for the COMP6205 - Web Development module at the University of Southampton and is not intended as a replacement for an industry standard Editing tool such as Audacity, Editing is instead intended to be used for quick proof of concepts and sharing whilst on the move or without the neccessary audio editing software.</p>
 				<p>The first section of this user manual, Tutorials, will cover each of the basic functions of the Editing application (Upload, Trim, Silence, Fade in, Fade out, Slow down, Speed up, Share and Save), whilst the second section of the user manual, User Stories, will explain how these simple functions can be chained together to result in complex audio editing actions. Each point in both the Tutorials and User Stories sections has an accompanying audioless video to demonstrate the actions being described.</p> 
 			</div>
-			<hr id="tuts_jump" />
+			<hr id="tutorials_jump" />
 			<div id="tutorials" class="container">
 				<h2>Tutorials</h2>
 				<p>The Editing web application features a number of functions. First and foremost Editing allows a user to Upload an MP3 audio file, and after an audio file has been uploaded, users can Trim, Fade in, Fade Out, Stretch, Share and Save the file.</p>
@@ -83,8 +83,8 @@
 					<div class="clear"></div>
 				</div>
 			</div>
-				<hr id="stories_jump" />
-				<div id="stories" class="container">
+			<hr id="stories_jump" />
+			<div id="stories" class="container">
 				<h2>User Stories</h2>
 				<p>There are 5 User Stories we envisioned during the planning phase of Editing. Each of the proposed user stories have been implemented in the finished prototype. The user stories and how to enact them can be seen below. </p>
 				<div class="stories">	
@@ -198,7 +198,8 @@
 				<h3>COMP6205 - Web Development</h3>
 				<div class="nav">
 					<h4>Navigation</h4>
-					<a href="#header_wrap">Tutorials</a><br />
+					<a href="#header_wrap">Introduction</a><br />
+					<a href="#tutorials_jump">Tutorials</a><br />
 					<a href="#stories_jump">User Stories</a><br />
 					<a href="#about_jump">About</a><br />
 				</div>

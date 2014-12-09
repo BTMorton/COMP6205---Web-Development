@@ -27,7 +27,7 @@ h1,h2,h3,h4,h5 {
 	display: none !important;
 }
 
-#header_wrap {
+.header_wrap {
 	height: 200px;
 }
 
@@ -104,6 +104,25 @@ header.fixed {
 #wrapper p {
 	margin-bottom: 20px;
 	padding: 5px;
+}
+
+#wrapper strong {
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+#wrapper pre {
+	padding: 10px;
+	margin-bottom: 20px;
+	overflow-x: scroll;
+}
+
+#wrapper pre, #wrapper code {
+	background-color: #cef1ff;
+}
+
+#wrapper p code {
+	padding: 1px 5px;
 }
 
 .stories h3 {

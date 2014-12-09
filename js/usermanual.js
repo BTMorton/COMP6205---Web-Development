@@ -6,7 +6,7 @@ $(function() {
             $('header').removeClass('fixed');
         }
         
-        if ($(window).scrollTop() > ($("#about").offset().top - $("#about h2").height() - 35)) {
+        /*if ($(window).scrollTop() > ($("#about").offset().top - $("#about h2").height() - 35)) {
             $("header .nav a:not(.about).active").removeClass("active");
             $("header .nav .about").addClass("active");
         } else if ($(window).scrollTop() > ($("#stories").offset().top - $("#stories h2").height() - 35)) {
@@ -18,7 +18,13 @@ $(function() {
         } else {
             $("header .nav a:not(.intro).active").removeClass("active");
             $("header .nav .intro").addClass("active");
-        }
+        }*/
+        $("#wrapper .container").each(function() {
+            if ($(window).scrollTop() > ($(this).offset().top - $("h2", this).height() - 35)) {
+                $("header .nav a:not([href=#" + this.id + "_jump]).active").removeClass("active");
+                $("header .nav a[href=#" + this.id + "_jump]").addClass("active");
+            }
+        });
     });
 
     $(".stories .video").click(function() {
